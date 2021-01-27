@@ -1,6 +1,8 @@
 # Hoe heeft covid-19 zich ontwikkeld in Nederland?
 
+
 *Door:*
+
 Mitchell Bink, Sandro Offermans & Max Kleinman
 
 In het onderzoek naar de ontwikkeling van covid-19 in Nederland zijn een aantal deelonderwerpen onderzocht.  Voor de gedane onderzoeken zijn zoveel mogelijk wetenschappelijke artikelen en bronnen gebruikt om mogelijke aannames te voorkomen. 
@@ -62,7 +64,7 @@ Voor deze deelvraag is er een kort onderzoek gedaan waarbij er gekeken is naar 3
 Groot Brittannië en Ierland bevinden zich samen op 2 land massa’s, IJsland bevind zich op een enkele landmassa. Logisch geredeneerd zouden de eilanden minder verspreiding moeten hebben, omdat reizen naar deze landen via minder makkelijke manier gedaan moet worden door bijvoorbeeld gebruik van boot of vliegtuig.
 
 Hierbij is de volgende data gebruikt.
-![results_image_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/results_islands.png)
+![results_image_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/results_island.png)
 ### Conclusie
 Volgens het door ons uitgevoerde onderzoek is de verspreidingsgraad hoger op eilanden dat het is op het vaste land. Dit gaat tegen logica in, maar dit geeft ook weer aan zoals in de klimaat vraag dat er veel meer factoren meespelen bij het verspreiden van COVID-19. Dit kan te maken hebben met de verschillende maatregelen de landen opleggen, maar ook door de verschillende mutaties van COVID-19.
 
@@ -143,7 +145,7 @@ I = de strengheid van een land tussen 0 en 100, waarbij 100 alle maatregelen op 
 j = nummer van de maatregel
 
 Omdat niet elke maatregel dezelfde schaal heeft qua beoordelen, omdat in sommige gevallen meer nuance aangebracht kan worden, is er een formule die de weging van de maatregelen berekent ten opzichte van de ordinale schaal die deze indicatoren hebben:
-$$w =\frac{1}{8} \sum_{j=1}^8 \frac{1}{N_j + 1} \approx 0,2854$$
+$$ w =\frac{1}{8} \sum_{j=1}^8 \frac{1}{N_j + 1} \approx 0,2854 $$
 
 Waarbij geldt dat:
 
