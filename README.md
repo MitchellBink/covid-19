@@ -1,6 +1,8 @@
 # Hoe heeft covid-19 zich ontwikkeld in Nederland?
 
+
 *Door:*
+
 Mitchell Bink, Sandro Offermans & Max Kleinman
 
 In het onderzoek naar de ontwikkeling van covid-19 in Nederland zijn een aantal deelonderwerpen onderzocht.  Voor de gedane onderzoeken zijn zoveel mogelijk wetenschappelijke artikelen en bronnen gebruikt om mogelijke aannames te voorkomen. 
