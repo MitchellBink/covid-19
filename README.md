@@ -136,7 +136,8 @@ De maatregelen die de meeste landen (hetzij landelijk, hetzij regionaal) genomen
 Deze maatregelen kunnen alleen maar effectief zijn als ze landelijk geregeld worden. In een ideale situatie zou dit zelfs continentaal geregeld worden, omdat de meeste continenten een verdrag hebben tussen de landen per continent.
 
 De strengheid van de maatregelen kan gedefinieerd worden met de volgende formule (Oxford University, 2020):
-![formula_1](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_1.png)
+
+![formula_1](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_1.JPG)
 
 Hierbij geldt het volgende:
 
@@ -144,23 +145,24 @@ I = de strengheid van een land tussen 0 en 100, waarbij 100 alle maatregelen op 
 j = het nummer van de maatregel
 
 Omdat niet elke maatregel dezelfde schaal heeft qua beoordelen, omdat in sommige gevallen meer nuance aangebracht kan worden, is er een formule die de weging van de maatregelen berekent ten opzichte van de ordinale schaal die deze indicatoren hebben:
-![formula_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_2.png)
+
+![formula_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_2.JPG)
 
 Waarbij geldt dat:
 
-![formula_5](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_5.png)
+![formula_5](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_5.JPG)
 
 Deze formule geldt voor de weging van alle maatregelen, behalve voor het controleren dan wel sluiten van grenzen. Dit omdat deze altijd landelijk worden geregeld, zal deze een andere formule krijgen uiteindelijk.
 
 Voor de berekening van een individuele indicator die al dan niet landelijk geregeld kan worden, en wat de strengheid van die indicator dus is, geldt het volgende:
 
-![formula_3](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_3.png)
+![formula_3](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_3.JPG)
 
-![formula_6](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_6.png)
+![formula_6](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_6.JPG)
 
 
 Voor de 8ste indicator geldt de volgende, omdat die alleen landelijk geregeld kan zijn:
-![formula_4](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_4.png)
+![formula_4](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_4.JPG)
 
 Echter, de strengheid van een land hoeft geen correlatie te hebben met het aantal besmettingen, sterfgevallen, of andere cijfers, maar kunnen door een land te pas en te onpas opgelegd worden aan de bevolking. Er schijnt wel een overeenkomst te zijn als wanneer er pieken zijn, dat de strengheid van een land qua maatregelen ook hoger wordt, maar wanneer de aantallen afnemen nemen niet persé ook de maatregelen af qua strengheid.
 
