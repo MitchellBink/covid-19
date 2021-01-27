@@ -64,7 +64,7 @@ Voor deze deelvraag is er een kort onderzoek gedaan waarbij er gekeken is naar 3
 Groot Brittannië en Ierland bevinden zich samen op 2 land massa’s, IJsland bevind zich op een enkele landmassa. Logisch geredeneerd zouden de eilanden minder verspreiding moeten hebben, omdat reizen naar deze landen via minder makkelijke manier gedaan moet worden door bijvoorbeeld gebruik van boot of vliegtuig.
 
 Hierbij is de volgende data gebruikt.
-![results_image_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/results_islands.png)
+![results_image_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/results_island.png)
 ### Conclusie
 Volgens het door ons uitgevoerde onderzoek is de verspreidingsgraad hoger op eilanden dat het is op het vaste land. Dit gaat tegen logica in, maar dit geeft ook weer aan zoals in de klimaat vraag dat er veel meer factoren meespelen bij het verspreiden van COVID-19. Dit kan te maken hebben met de verschillende maatregelen de landen opleggen, maar ook door de verschillende mutaties van COVID-19.
 
