@@ -143,7 +143,7 @@ I = de strengheid van een land tussen 0 en 100, waarbij 100 alle maatregelen op 
 j = nummer van de maatregel
 
 Omdat niet elke maatregel dezelfde schaal heeft qua beoordelen, omdat in sommige gevallen meer nuance aangebracht kan worden, is er een formule die de weging van de maatregelen berekent ten opzichte van de ordinale schaal die deze indicatoren hebben:
-$$w =\frac{1}{8} \sum_{j=1}^8 \frac{1}{N_j + 1} \approx 0,2854$$
+$$ w =\frac{1}{8} \sum_{j=1}^8 \frac{1}{N_j + 1} \approx 0,2854 $$
 
 Waarbij geldt dat:
 
