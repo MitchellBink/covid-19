@@ -277,3 +277,6 @@ def calc():
         ax = update_graph(1,"2020-01-01",17700000,10,5.0,5.0,[ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-02-01", "R value" : 2.9},{"Date" : "2020-03-01", "R value" : 2.5},{"Date" : "2020-04-01", "R value" : 0.8},{"Date" : "2020-05-01", "R value" : 1.1},{"Date" : "2020-06-01", "R value" : 2},{"Date" : "2020-07-01", "R value" : 2.1},{"Date" : "2020-08-01", "R value" : 2.2},{"Date" : "2020-09-01", "R value" : 2.3}],    [ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2}     ])
         return render_template("Epidemic-calculator.html", results = list(ax))
     
+    
+if __name__ == "__main__":
+    app.run(debug=False)
