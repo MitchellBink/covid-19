@@ -1,0 +1,1252 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- Primary Meta Tags -->
+<title>{{meta_title}}</title>
+<meta name="title" content="{{meta_title}}">
+<meta name="description" content="{{meta_description}}">
+<link rel="canonical" href="{{rel_canonical}}" />
+<link itemprop="image" href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+<link rel='shortcut icon' type='image/x-icon' href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{rel_canonical}}">
+<meta property="og:title" content="{{meta_title}}">
+<meta property="og:description" content="{{meta_description}}">
+<meta property="og:image:alt" content="Covid-19, wat betekent de data?" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{rel_canonical}}">
+<meta property="twitter:title" content="{{meta_title}}">
+<meta property="twitter:description" content="{{meta_description}}">
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <!--Map chart-->
+    <div class="row">
+        <div class="col">
+            <h3>Set the map chart:</h3><br />
+            <input type="checkbox" id="CheckboxMap" name="CheckboxMap" onclick='handleMapCbClick(this);'>
+            <label for="CheckboxMap">I want the map chart to display the cases per 10.000 people</label><br>
+                                                                                           <br />
+            <h3>I want the following sub-charts:</h3><br />
+            <input class="cbfn" type="checkbox" id="CheckboxLogCases" name="CheckboxLogCases" onclick='handleClick(this);' checked>
+            <label for="CheckboxLogCases">The amount of cases on logarithmic scale.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxLogDeaths" name="CheckboxLogDeaths" onclick='handleClick(this);' checked>
+            <label for="CheckboxLogDeaths">The amount of deaths on logarithmic scale.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxNewCases" name="CheckboxNewCases" onclick='handleClick(this);' checked>
+            <label for="CheckboxNewCases">The amount of new cases per day.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxNewDeaths" name="CheckboxNewDeaths" onclick='handleClick(this);' checked>
+            <label for="CheckboxNewDeaths">The amount of new deaths per day.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxChangeCases" name="CheckboxChangeCases" onclick='handleClick(this);' checked>
+            <label for="CheckboxChangeCases">The amount of cases respectively of the previous day.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxChangeDeaths" name="CheckboxChangeDeaths" onclick='handleClick(this);' checked>
+            <label for="CheckboxChangeDeaths">The amount of deaths respectively of the previous day.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxCases10k" name="CheckboxCases10k" onclick='handleClick(this);' checked>
+            <label for="CheckboxCases10k">The amount of cases per 10.000 people (cumulative).</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxDeaths10k" name="CheckboxDeaths10k" onclick='handleClick(this);' checked>
+            <label for="CheckboxDeaths10k">The amount of deaths per 10.000 people (cumulative)</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxStringency" name="CheckboxStringency" onclick='handleClick(this);' checked>
+            <label for="CheckboxStringency">The stringency of a country per day.</label><br>
+            <input class="cbfn" type="checkbox" id="CheckboxRatio" name="CheckboxRatio" onclick='handleClick(this);' checked>
+            <label for="CheckboxRatio">The case fatality ratio per day.</label><br>
+            <br />
+            <h4>Click on a country to select the country. Hold shift while clicking on a country to compare the countries. You can zoom in/out by using the scroll function.</h4>
+            <h4>To get more detailed information about the selected country, scroll down to see the sub-charts. If you are not interested in certain data, you can uncheck the checkbox above of that chart.</h4>
+
+            <h6>The data is obtained from <a style="color:#107594; text-decoration:underline;" title="Oxford University" href="https://github.com/OxCGRT/covid-policy-tracker">Oxford</a> and <a style="color:#107594; text-decoration:underline;" title="Our world in data" href="https://github.com/owid/covid-19-data/tree/master/public/data">Our world in Data</a></h6>
+        </div>
+        <div class="col">
+            <div class="mapcharts" id="mapContainer" style="width:80vh; height:80vh;"></div>
+            <div class="mapcharts" id="mapContainer10k" style="width:80vh; height:80vh;"></div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <input type="button" onclick="location.href = '/epidemic-calculator';" value="Go to the Epi(c)demic calculator"/>
+            </div>
+        </div>
+    </div>
+    <!--new cases/deaths-->
+    <div class="row">
+        <div id="ColinfoNewCases" class="col-lg-6">
+            <div id="infoNewCases" style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="newcases-chart" style="width:100%;"></div>
+            </div>
+        </div>
+        <div id="ColinfoNewDeaths" class="col-lg-6">
+            <div id="infoNewDeaths" style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="newdeaths-chart" style="width:100%;"></div>
+            </div>
+        </div>
+        <div id="ColinfoLogCases" class="col-lg-6">
+            <div id="infoLogCases" style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the cases</div>
+                <div class="charts" id="logcases-chart" style="width:100%;"></div>
+            </div>
+        </div>
+
+    <!--Cumulative cases/deaths log scale-->
+          
+        <div id="ColinfoLogDeaths" class="col-lg-6">
+            <div id="infoLogDeaths" style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="logdeaths-chart" style="width:100%;"></div>
+            </div>
+        </div>
+
+
+    <!-- change of cases/deaths-->
+        <div id="ColinfoChangeCases" class="col-lg-6">
+            <div id="infoChangeCases" style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="changecases-chart" style="width:100%;"></div>
+            </div>
+        </div>
+        <div id="ColinfoChangeDeaths" class="col-lg-6">
+            <div id="infoChangeDeaths"style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="changedeaths-chart"style="width:100%;"></div>
+            </div>
+        </div>
+
+    <!-- cases/deaths per 10k -->
+        <div id="ColinfoCasesTenThousand" class="col-lg-6">
+            <div id="infoCasesTenThousand"style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="casesTenThousand-chart"style="width:100%;"></div>
+            </div>
+        </div>
+        <div id="ColinfoDeathsTenThousand" class="col-lg-6">
+            <div id="infoDeathsTenThousand"style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="deathsTenThousand-chart"style="width:100%;"></div>
+            </div>
+        </div>
+
+    <!--stringency/ratio-->
+        <div id="ColinfoStringency" class="col-lg-6">
+            <div id="infoStringency"style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="stringency-chart"style="width:100%;"></div>
+            </div>
+        </div>
+        <div id="ColinfoRatio" class="col-lg-6">
+            <div id="infoRatio"style="width:100%;">
+                <h2></h2>
+                <div class="subheader">Click countries to view the history of the deaths</div>
+                <div class="charts" id="ratio-chart"style="width:100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--script for charts with jinja2/js -->
+<script>
+    _numbersALB = {{ numbersALB | safe }}
+    _numbersALB = {{ numbersALB | safe }}
+    _numbersAND = {{ numbersAND | safe }}
+    _numbersAUT = {{ numbersAUT | safe }}
+    _numbersBIH = {{ numbersBIH | safe }}
+    _numbersBGR = {{ numbersBGR | safe }}
+    _numbersHRV = {{ numbersHRV | safe }}
+    _numbersGBR = {{ numbersGBR | safe }}
+    _numbersUKR = {{ numbersUKR | safe }}
+    _numbersCHE = {{ numbersCHE | safe }}
+    _numbersSWE = {{ numbersSWE | safe }}
+    _numbersESP = {{ numbersESP | safe }}
+    _numbersSVN = {{ numbersSVN | safe }}
+    _numbersSVK = {{ numbersSVK | safe }}
+    _numbersSRB = {{ numbersSRB | safe }}
+    _numbersRUS = {{ numbersRUS | safe }}
+    _numbersROU = {{ numbersROU | safe }}
+    _numbersPRT = {{ numbersPRT | safe }}
+    _numbersPOL = {{ numbersPOL | safe }}
+    _numbersNOR = {{ numbersNOR | safe }}
+    _numbersMDA = {{ numbersMDA | safe }}
+    _numbersLUX = {{ numbersLUX | safe }}
+    _numbersLTU = {{ numbersLTU | safe }}
+    _numbersLVA = {{ numbersLVA | safe }}
+    _numbersITA = {{ numbersITA | safe }}
+    _numbersIRL = {{ numbersIRL | safe }}
+    _numbersISL = {{ numbersISL | safe }}
+    _numbersHUN = {{ numbersHUN | safe }}
+    _numbersGRC = {{ numbersGRC | safe }}
+    _numbersDEU = {{ numbersDEU | safe }}
+    _numbersFRA = {{ numbersFRA | safe }}
+    _numbersFIN = {{ numbersFIN | safe }}
+    _numbersEST = {{ numbersEST | safe }}
+    _numbersDNK = {{ numbersDNK | safe }}
+    _numbersCZE = {{ numbersCZE | safe }}
+    _numbersBLR = {{ numbersBLR | safe }}
+    _numbersNLD = {{ numbersNL | safe }}
+    _numbersBEL = {{ numbersBE | safe }}
+
+    var mapChart, mapChart10k, logCasesChart, logDeathsChart, newCasesChart, newDeathsChart, changeCasesChart, changeDeathsChart, stringencyChart, ratioChart, casesTenThousandChart, deathsTenThousandChart;
+    var dataLineChartTotalCases = {
+        "nl": ['nl', _numbersNLD],
+        "dk": ['dk', _numbersDNK],
+        "hr": ['hr', _numbersHUN],
+        "ee": ['ee', _numbersEST],
+        "bg": ['bg', _numbersBGR],
+        "es": ['es', _numbersESP],
+        "it": ['it', _numbersITA],
+        "fr": ['fr', _numbersFRA],
+        "no": ['no', _numbersNOR],
+        "de": ['de', _numbersDEU],
+        "ie": ['ie', _numbersIRL],
+        "ua": ['ua', _numbersUKR],
+        "fi": ['fi', _numbersFIN],
+        "se": ['se', _numbersSWE],
+        "ru": ['ru', _numbersRUS],
+        "gb": ['gb', _numbersGBR],
+        "pt": ['pt', _numbersPRT],
+        "gr": ['gr', _numbersGRC],
+        "lt": ['lt', _numbersLTU],
+        "si": ['si', _numbersSVN],
+        "ba": ['ba', _numbersBIH],
+        "al": ['al', _numbersALB],
+        "rs": ['rs', _numbersSRB],
+        "ro": ['ro', _numbersROU],
+        "at": ['at', _numbersAUT],
+        "sk": ['sk', _numbersSVK],
+        "hu": ['hu', _numbersHUN],
+        "ad": ['ad', _numbersAND],
+        "lu": ['lu', _numbersLUX],
+        "ch": ['ch', _numbersCHE],
+        "be": ['be', _numbersBEL],
+        "pl": ['pl', _numbersPOL],
+        "lv": ['lv', _numbersLVA],
+        "by": ['by', _numbersBLR],
+        "is": ['is', _numbersISL],
+        "md": ['md', _numbersMDA],
+        "cz": ['cz', _numbersCZE]
+    };
+    var data = {
+        "nl": ['nl', _numbersNLD],
+        "nl": ['dk', _numbersDNK],
+        "nl": ['hr', _numbersHUN],
+        "nl": ['ee', _numbersEST],
+        "nl": ['bg', _numbersBGR],
+        "nl": ['es', _numbersESP],
+        "nl": ['it', _numbersITA],
+        "nl": ['fr', _numbersFRA],
+        "nl": ['no', _numbersNOR],
+        "nl": ['de', _numbersDEU],
+        "nl": ['ie', _numbersIRL],
+        "nl": ['ua', _numbersUKR],
+        "nl": ['fi', _numbersFIN],
+        "nl": ['se', _numbersSWE],
+        "nl": ['ru', _numbersRUS],
+        "nl": ['gb', _numbersGBR],
+        "nl": ['pt', _numbersPRT],
+        "nl": ['gr', _numbersGRC],
+        "nl": ['lt', _numbersLTU],
+        "nl": ['si', _numbersSVN],
+        "nl": ['ba', _numbersBIH],
+        "nl": ['al', _numbersALB],
+        "nl": ['rs', _numbersSRB],
+        "nl": ['ro', _numbersROU],
+        "nl": ['at', _numbersAUT],
+        "nl": ['sk', _numbersSVK],
+        "nl": ['hu', _numbersHUN],
+        "nl": ['ad', _numbersAND],
+        "nl": ['lu', _numbersLUX],
+        "nl": ['ch', _numbersCHE],
+        "nl": ['be', _numbersBEL],
+        "nl": ['pl', _numbersPOL],
+        "nl": ['lv', _numbersLVA],
+        "nl": ['by', _numbersBLR],
+        "nl": ['is', _numbersISL],
+        "nl": ['md', _numbersMDA],
+        "nl": ['cz', _numbersCZE]
+    };
+
+    var dataCasesOneNov = [
+        ['nl', _numbersNLD[0].slice(-1)[0]],
+        ['dk', _numbersDNK[0].slice(-1)[0]],
+        ['hr', _numbersHUN[0].slice(-1)[0]],
+        ['ee', _numbersEST[0].slice(-1)[0]],
+        ['bg', _numbersBGR[0].slice(-1)[0]],
+        ['es', _numbersESP[0].slice(-1)[0]],
+        ['it', _numbersITA[0].slice(-1)[0]],
+        ['fr', _numbersFRA[0].slice(-1)[0]],
+        ['no', _numbersNOR[0].slice(-1)[0]],
+        ['de', _numbersDEU[0].slice(-1)[0]],
+        ['ie', _numbersIRL[0].slice(-1)[0]],
+        ['ua', _numbersUKR[0].slice(-1)[0]],
+        ['fi', _numbersFIN[0].slice(-1)[0]],
+        ['se', _numbersSWE[0].slice(-1)[0]],
+        ['ru', _numbersRUS[0].slice(-1)[0]],
+        ['gb', _numbersGBR[0].slice(-1)[0]],
+        ['pt', _numbersPRT[0].slice(-1)[0]],
+        ['gr', _numbersGRC[0].slice(-1)[0]],
+        ['lt', _numbersLTU[0].slice(-1)[0]],
+        ['si', _numbersSVN[0].slice(-1)[0]],
+        ['ba', _numbersBIH[0].slice(-1)[0]],
+        ['al', _numbersALB[0].slice(-1)[0]],
+        ['rs', _numbersSRB[0].slice(-1)[0]],
+        ['ro', _numbersROU[0].slice(-1)[0]],
+        ['at', _numbersAUT[0].slice(-1)[0]],
+        ['sk', _numbersSVK[0].slice(-1)[0]],
+        ['hu', _numbersHUN[0].slice(-1)[0]],
+        ['ad', _numbersAND[0].slice(-1)[0]],
+        ['lu', _numbersLUX[0].slice(-1)[0]],
+        ['ch', _numbersCHE[0].slice(-1)[0]],
+        ['be', _numbersBEL[0].slice(-1)[0]],
+        ['pl', _numbersPOL[0].slice(-1)[0]],
+        ['lv', _numbersLVA[0].slice(-1)[0]],
+        ['by', _numbersBLR[0].slice(-1)[0]],
+        ['is', _numbersISL[0].slice(-1)[0]],
+        ['md', _numbersMDA[0].slice(-1)[0]],
+        ['cz', _numbersCZE[0].slice(-1)[0]]
+    ];
+    var data10kCasesOneNov = [
+        ['nl', _numbersNLD[2].slice(-1)[0]],
+        ['dk', _numbersDNK[2].slice(-1)[0]],
+        ['hr', _numbersHUN[2].slice(-1)[0]],
+        ['ee', _numbersEST[2].slice(-1)[0]],
+        ['bg', _numbersBGR[2].slice(-1)[0]],
+        ['es', _numbersESP[2].slice(-1)[0]],
+        ['it', _numbersITA[2].slice(-1)[0]],
+        ['fr', _numbersFRA[2].slice(-1)[0]],
+        ['no', _numbersNOR[2].slice(-1)[0]],
+        ['de', _numbersDEU[2].slice(-1)[0]],
+        ['ie', _numbersIRL[2].slice(-1)[0]],
+        ['ua', _numbersUKR[2].slice(-1)[0]],
+        ['fi', _numbersFIN[2].slice(-1)[0]],
+        ['se', _numbersSWE[2].slice(-1)[0]],
+        ['ru', _numbersRUS[2].slice(-1)[0]],
+        ['gb', _numbersGBR[2].slice(-1)[0]],
+        ['pt', _numbersPRT[2].slice(-1)[0]],
+        ['gr', _numbersGRC[2].slice(-1)[0]],
+        ['lt', _numbersLTU[2].slice(-1)[0]],
+        ['si', _numbersSVN[2].slice(-1)[0]],
+        ['ba', _numbersBIH[2].slice(-1)[0]],
+        ['al', _numbersALB[2].slice(-1)[0]],
+        ['rs', _numbersSRB[2].slice(-1)[0]],
+        ['ro', _numbersROU[2].slice(-1)[0]],
+        ['at', _numbersAUT[2].slice(-1)[0]],
+        ['sk', _numbersSVK[2].slice(-1)[0]],
+        ['hu', _numbersHUN[2].slice(-1)[0]],
+        ['ad', _numbersAND[2].slice(-1)[0]],
+        ['lu', _numbersLUX[2].slice(-1)[0]],
+        ['ch', _numbersCHE[2].slice(-1)[0]],
+        ['be', _numbersBEL[2].slice(-1)[0]],
+        ['pl', _numbersPOL[2].slice(-1)[0]],
+        ['lv', _numbersLVA[2].slice(-1)[0]],
+        ['by', _numbersBLR[2].slice(-1)[0]],
+        ['is', _numbersISL[2].slice(-1)[0]],
+        ['md', _numbersMDA[2].slice(-1)[0]],
+        ['cz', _numbersCZE[2].slice(-1)[0]]
+    ];
+
+    Highcharts.wrap(Highcharts.Point.prototype, 'select', function (proceed) {
+
+        proceed.apply(this, Array.prototype.slice.call(arguments, 1));
+        var points;
+        if (document.getElementById('CheckboxMap').checked) {
+            if (typeof mapChart10k === 'undefined') {
+                points = mapChart.getSelectedPoints();
+            } else {
+                points = mapChart10k.getSelectedPoints();
+            }
+
+        } else {
+
+            points = mapChart.getSelectedPoints();
+        }
+
+        if (points.length) {
+            if (points.length === 1) {
+                document.querySelector('#infoLogCases h2').innerHTML = points[0].name;
+                document.querySelector('#infoLogDeaths h2').innerHTML = points[0].name;
+                document.querySelector('#infoNewCases h2').innerHTML = points[0].name;
+                document.querySelector('#infoNewDeaths h2').innerHTML = points[0].name;
+                document.querySelector('#infoChangeCases h2').innerHTML = points[0].name;
+                document.querySelector('#infoChangeDeaths h2').innerHTML = points[0].name;
+                document.querySelector('#infoStringency h2').innerHTML = points[0].name;
+                document.querySelector('#infoRatio h2').innerHTML = points[0].name;
+                document.querySelector('#infoCasesTenThousand h2').innerHTML = points[0].name;
+                document.querySelector('#infoDeathsTenThousand h2').innerHTML = points[0].name;
+            } else {
+                document.querySelector('#infoLogCases h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoLogDeaths h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoNewCases h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoNewDeaths h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoChangeCases h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoChangeDeaths h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoStringency h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoRatio h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoCasesTenThousand h2').innerHTML = 'Comparing countries';
+                document.querySelector('#infoDeathsTenThousand h2').innerHTML = 'Comparing countries';
+
+            }
+            //<small><em>Shift + Click on map to compare countries</em></small>
+            document.querySelector('#infoLogCases .subheader')
+                .innerHTML = '<h4>Cumulative cases on a logarithmic scale</h4>';
+            document.querySelector('#infoLogDeaths .subheader')
+                .innerHTML = '<h4>Cumulative deaths on a logarithmic scale</h4>';
+            document.querySelector('#infoNewCases .subheader')
+                .innerHTML = '<h4>New cases per day</h4>';
+            document.querySelector('#infoNewDeaths .subheader')
+                .innerHTML = '<h4>New deaths per day</h4>';
+            document.querySelector('#infoChangeCases .subheader')
+                .innerHTML = '<h4>Amount of cases respectively of the previous day</h4>';
+            document.querySelector('#infoChangeDeaths .subheader')
+                .innerHTML = '<h4>Amount of deaths respectively of the previous day</h4>';
+            document.querySelector('#infoStringency .subheader')
+                .innerHTML = '<h4>Stringency index</h4>';
+            document.querySelector('#infoRatio .subheader')
+                .innerHTML = '<h4>Case fatality ratio (CFR)</h4>';
+            document.querySelector('#infoCasesTenThousand .subheader')
+                .innerHTML = '<h4>Cases per 10.000 people</h4>';
+            document.querySelector('#infoDeathsTenThousand .subheader')
+                .innerHTML = '<h4>Deaths per 10.000 people</h4>';
+            //create charts
+            if (!logCasesChart) {
+                logCasesChart = Highcharts.chart({
+                    chart: {
+                        renderTo: 'logcases-chart',
+                        zoomType: 'x',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'logarithmic',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0,22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+            if (!logDeathsChart) {
+                logDeathsChart = Highcharts.chart({
+                    chart: {
+                        renderTo: 'logdeaths-chart',
+                        zoomType: 'x',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'logarithmic',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+            if (!newCasesChart) {
+                newCasesChart = Highcharts.chart({
+                    chart: {
+                        renderTo: 'newcases-chart',
+                        zoomType: 'x',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+            if (!newDeathsChart) {
+                newDeathsChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo:'newdeaths-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+
+            if (!changeCasesChart) {
+                changeCasesChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo: 'changecases-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+            if (!changeDeathsChart) {
+                changeDeathsChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo:'changedeaths-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime',
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+            if (!stringencyChart) {
+                stringencyChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo: 'stringency-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'lineair',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+            if (!ratioChart) {
+                ratioChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo: 'ratio-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+            if (!casesTenThousandChart) {
+                casesTenThousandChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo: 'casesTenThousand-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+            if (!deathsTenThousandChart) {
+                deathsTenThousandChart = Highcharts.chart({
+                    chart: {
+                        zoomType: 'x',
+                        renderTo: 'deathsTenThousand-chart',
+                        spacingLeft: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    xAxis: {
+                        tickPixelInterval: 50,
+                        crosshair: true,
+                        type: 'datetime'
+
+                    },
+                    yAxis: {
+                        title: null,
+                        opposite: true,
+                        type: 'linear',
+                        minorTickInterval: 'auto'
+                    },
+                    tooltip: {
+                        split: true
+                    },
+                    plotOptions: {
+                        series: {
+                            animation: {
+                                duration: 500
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            pointStart: Date.UTC(2020, 0, 22),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }
+                    }
+                });
+            }
+
+            logCasesChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            logDeathsChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            newCasesChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            newDeathsChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            changeCasesChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            changeDeathsChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            stringencyChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            ratioChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            casesTenThousandChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+            deathsTenThousandChart.series.slice(0).forEach(function (s) {
+                s.remove(false);
+            });
+
+            //Assigning data to charts
+            points.forEach(function (p) {
+                var xy = p["hc-key"];
+                logCasesChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][0],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                logDeathsChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][1],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                newCasesChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][5],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                newDeathsChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][7],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                changeCasesChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][6],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                changeDeathsChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][8],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                stringencyChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][9],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                ratioChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][4],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                casesTenThousandChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][2],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+                deathsTenThousandChart.addSeries({
+                    name: p.name,
+                    data: dataLineChartTotalCases[xy][1][3],
+                    type: points.length > 1 ? 'line' : 'area'
+                }, false);
+            });
+
+            // redraw charts
+            logCasesChart.redraw();
+            logDeathsChart.redraw();
+            newCasesChart.redraw();
+            newDeathsChart.redraw();
+            changeCasesChart.redraw();
+            changeDeathsChart.redraw();
+            stringencyChart.redraw();
+            ratioChart.redraw();
+            casesTenThousandChart.redraw();
+            deathsTenThousandChart.redraw();
+
+        } else {
+            //destroy chart// make header empty
+            document.querySelector('#infoLogCases h2').innerHTML = '';
+            document.querySelector('#infoLogDeaths h2').innerHTML = '';
+            document.querySelector('#infoNewCases h2').innerHTML = '';
+            document.querySelector('#infoNewDeaths h2').innerHTML = '';
+            document.querySelector('#infoChangeCases h2').innerHTML = '';
+            document.querySelector('#infoChangeDeaths h2').innerHTML = '';
+            document.querySelector('#infoStringency h2').innerHTML = '';
+            document.querySelector('#infoRatio h2').innerHTML = '';
+            document.querySelector('#infoCasesTenThousand h2').innerHTML = '';
+            document.querySelector('#infoDeathsTenThousand h2').innerHTML = '';
+            document.querySelector('#infoLogCases .subheader').innerHTML = '';
+            document.querySelector('#infoLogDeaths .subheader').innerHTML = '';
+            document.querySelector('#infoNewCases .subheader').innerHTML = '';
+            document.querySelector('#infoNewDeaths .subheader').innerHTML = '';
+            document.querySelector('#infoChangeCases .subheader').innerHTML = '';
+            document.querySelector('#infoChangeDeaths .subheader').innerHTML = '';
+            document.querySelector('#infoStringency .subheader').innerHTML = '';
+            document.querySelector('#infoRatio .subheader').innerHTML = '';
+            document.querySelector('#infoCasesTenThousand .subheader').innerHTML = '';
+            document.querySelector('#infoDeathsTenThousand .subheader').innerHTML = '';
+
+            if (logCasesChart) {
+                logCasesChart = logCasesChart.destroy();
+            }
+            if (logDeathsChart) {
+                logDeathsChart = logDeathsChart.destroy();
+            }
+            if (newCasesChart) {
+                newCasesChart = newCasesChart.destroy();
+            }
+            if (newDeathsChart) {
+                newDeathsChart = newDeathsChart.destroy();
+            }
+            if (changeCasesChart) {
+                changeCasesChart = changeCasesChart.destroy();
+            }
+            if (changeDeathsChart) {
+                changeDeathsChart = changeDeathsChart.destroy();
+            }
+            if (stringencyChart) {
+                stringencyChart = stringencyChart.destroy();
+            }
+            if (ratioChart) {
+                ratioChart = ratioChart.destroy();
+            } if (casesTenThousandChart) {
+                casesTenThousandChart = casesTenThousandChart.destroy();
+            } if (deathsTenThousandChart) {
+                deathsTenThousandChart = deathsTenThousandChart.destroy();
+            }
+        }
+    });
+    var mapData = Highcharts.geojson(Highcharts.maps['custom/europe']);
+    mapData.forEach(function (country) {
+        country.id = country.properties['hc-key']; // for Chart.get()
+        country.flag = country.id.replace('UK', 'GB').toLowerCase();
+    });
+
+    mapChart = Highcharts.mapChart({
+        chart: {
+            renderTo: 'mapContainer',
+            map: 'custom/europe'
+        },
+
+        title: {
+            text: 'Total cases on 1 November 2020'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            enableDoubleClickZoomTo: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            type: 'logarithmic',
+            endOnTick: false,
+            startOnTick: false,
+            min: 1000
+        },
+        credits: {
+            enabled: false
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.point.name + '</b><br />' +
+                    this.point.value + ' confirmed cases';
+            },
+            backgroundColor: '#FCFFC5',
+            borderColor: 'black',
+            borderRadius: 10,
+            borderWidth: 1
+        },
+        series: [{
+            animation: {
+                duration: 1000
+            },
+            data: dataCasesOneNov,
+            mapData: mapData,
+            name: 'Data known on 1 november 2020',
+            cursor: 'pointer',
+            allowPointSelect: true,
+            states: {
+                hover: {
+                    color: '#BADA55'
+                },
+                select: {
+                    color: '#a4edba',
+                    borderColor: 'black',
+                    dashStyle: 'shortdot'
+                }
+            },
+            borderWidth: 0.5,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+    mapChart.get('nl').select();
+
+    mapChart10k = Highcharts.mapChart({
+        chart: {
+            renderTo: 'mapContainer10k',
+            map: 'custom/europe'
+        },
+
+        title: {
+            text: 'Total cases on 1 November 2020'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            enableDoubleClickZoomTo: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            type: 'logarithmic',
+            endOnTick: false,
+            startOnTick: false,
+            min: 1
+        },
+        credits: {
+            enabled: false
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.point.name + '</b><br />' +
+                    this.point.value + ' confirmed cases';
+            },
+            backgroundColor: '#FCFFC5',
+            borderColor: 'black',
+            borderRadius: 10,
+            borderWidth: 1
+        },
+        series: [{
+            animation: {
+                duration: 1000
+            },
+            data: data10kCasesOneNov,
+            mapData: mapData,
+            name: 'Data known on 1 november 2020',
+            cursor: 'pointer',
+            allowPointSelect: true,
+            states: {
+                hover: {
+                    color: '#BADA55'
+                },
+                select: {
+                    color: '#a4edba',
+                    borderColor: 'black',
+                    dashStyle: 'shortdot'
+                }
+            },
+            borderWidth: 0.5,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+    mapChart10k.get('nl').select();
+
+    $(document).ready(function () {
+        CheckCheckboxes();
+        handleMapCbClick();
+    });
+
+</script>
+
+<script>
+    function handleMapCbClick() {
+        if (document.getElementById('CheckboxMap').checked) {
+            $('#mapContainer').hide();
+            $('#mapContainer10k').show();
+        } else {
+            $('#mapContainer10k').hide();
+            $('#mapContainer').show();
+        }
+    }
+    function handleClick(cb) {
+        CheckCheckboxes();
+    }
+    //hides the specific chart the user does not want
+    function CheckCheckboxes() {
+        let cbs = document.getElementsByClassName("cbfn");
+        for (cbsi = 0; cbsi < cbs.length; cbsi++) {
+            if (cbs[cbsi].id == "CheckboxLogCases" && !cbs[cbsi].checked) {
+                $("#ColinfoLogCases").hide();
+            } else if (cbs[cbsi].id == "CheckboxLogCases" && cbs[cbsi].checked) {
+                $("#ColinfoLogCases").show();
+            }
+            if (cbs[cbsi].id == "CheckboxLogDeaths" && !cbs[cbsi].checked) {
+                $("#ColinfoLogDeaths").hide();
+            } else if (cbs[cbsi].id == "CheckboxLogDeaths" && cbs[cbsi].checked) {
+                $("#ColinfoLogDeaths").show();
+            }
+            if (cbs[cbsi].id == "CheckboxNewCases" && !cbs[cbsi].checked) {
+                $("#ColinfoNewCases").hide();
+            } else if (cbs[cbsi].id == "CheckboxNewCases" && cbs[cbsi].checked) {
+                $("#ColinfoNewCases").show();
+            }
+            if (cbs[cbsi].id == "CheckboxNewDeaths" && !cbs[cbsi].checked) {
+                $("#ColinfoNewDeaths").hide();
+            } else if (cbs[cbsi].id == "CheckboxNewDeaths" && cbs[cbsi].checked) {
+                $("#ColinfoNewDeaths").show();
+            }
+            if (cbs[cbsi].id == "CheckboxChangeCases" && !cbs[cbsi].checked) {
+                $("#ColinfoChangeCases").hide();
+            } else if (cbs[cbsi].id == "CheckboxChangeCases" && cbs[cbsi].checked) {
+                $("#ColinfoChangeCases").show();
+            }
+            if (cbs[cbsi].id == "CheckboxChangeDeaths" && !cbs[cbsi].checked) {
+                $("#ColinfoChangeDeaths").hide();
+            } else if (cbs[cbsi].id == "CheckboxChangeDeaths" && cbs[cbsi].checked) {
+                $("#ColinfoChangeDeaths").show();
+            }
+            if (cbs[cbsi].id == "CheckboxCases10k" && !cbs[cbsi].checked) {
+                $("#ColinfoCasesTenThousand").hide();
+            } else if (cbs[cbsi].id == "CheckboxCases10k" && cbs[cbsi].checked) {
+                $("#ColinfoCasesTenThousand").show();
+            }
+            if (cbs[cbsi].id == "CheckboxDeaths10k" && !cbs[cbsi].checked) {
+                $("#ColinfoDeathsTenThousand").hide();
+            } else if (cbs[cbsi].id == "CheckboxDeaths10k" && cbs[cbsi].checked) {
+                $("#ColinfoDeathsTenThousand").show();
+            }
+            if (cbs[cbsi].id == "CheckboxStringency" && !cbs[cbsi].checked) {
+                $("#ColinfoStringency").hide();
+            } else if (cbs[cbsi].id == "CheckboxStringency" && cbs[cbsi].checked) {
+                $("#ColinfoStringency").show();
+            }
+            if (cbs[cbsi].id == "CheckboxRatio" && !cbs[cbsi].checked) {
+                $("#ColinfoRatio").hide();
+            } else if (cbs[cbsi].id == "CheckboxRatio" && cbs[cbsi].checked) {
+                $("#ColinfoRatio").show();
+            }
+        }
+    };
+</script>
+{% endblock %}

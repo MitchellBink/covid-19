@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script>
+        function openNav() {
+            document.getElementById("GetSidenav").style.width = "100%";
+        }
+
+        function closeNav() {
+            document.getElementById("GetSidenav").style.width = "0";
+        }
+        $(document).ready(function () {
+            $("#changingColor").css({
+                'background-color': '#95D4E7'
+            });
+
+
+
+            $(".PurpleLabel, .BePurple, .BeOrange").hover(function () {
+                $(".BePurple").css({
+                    'fill': '#107594',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+                $(".BeOrange").css({
+                    'fill': '#95D4E7',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+                $(".PurpleLabel").css({
+                    'fill': '#95D4E7',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+            }, function () {
+                $(".BePurple").css({
+                    'fill': '#95D4E7',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+                $(".BeOrange").css({
+                    'fill': '#fff',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+                $(".PurpleLabel").css({
+                    'fill': '#fff',
+                    '-webkit-transition': 'all 0.25s ease-in-out',
+                    'transition': 'all 0.25s ease-in-out'
+                });
+            });
+
+            // checks url, makes current header green
+            let pathname = window.location.pathname;
+            if (pathname.includes("/onderzoek")) {
+                $("#SkillpaspoortHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $('.sidenavbtn').addClass('onderzoek');
+            } else if (pathname.includes("/overig")) {
+                $("#OnderzoekHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $('.sidenavbtn').addClass('overig');
+            } else if (pathname.includes("/project")) {
+                $("#OverigHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $('.sidenavbtn').addClass('project');
+            } else {
+                $("#HomeHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $('.sidenavbtn').addClass('home');
+            }
+
+            //dropdown skillzilla voor
+            $("#ToggleOnderzoekDropdown").hover(
+                function () {
+                    $("#DropdownUitleg").addClass("show");
+                    $("#ToggleOnderzoekDropdown > div").addClass("hover");
+
+                },
+                function () {
+                    $("#ToggleOnderzoekDropdown  > div").removeClass("hover");
+                    if (!$("#DropdownUitleg").is(':hover')) {
+                        $("#DropdownUitleg").removeClass("show");
+                    }
+                    //check needed if you exit this div and not dropdown menu-> hide dropdownmenu
+
+                }
+            );
+            $("#DropdownUitleg").hover(
+                function () {
+                    $("#ToggleOnderzoekDropdown > div").addClass("hover");
+                },
+                function () {
+                    $("#DropdownUitleg").removeClass("show");
+                    $("#ToggleOnderzoekDropdown  > div").removeClass("hover");
+                }
+            );
+
+            // dropdown tips
+            $("#ToggleOverigDropdown").hover(
+                function () {
+                    $("#DropdownTips").addClass("show");
+                    $("#ToggleOverigDropdown > div").addClass("hover");
+
+                },
+                function () {
+                    $("#ToggleOverigDropdown  > div").removeClass("hover");
+                    if (!$("#DropdownTips").is(':hover')) {
+                        $("#DropdownTips").removeClass("show");
+                    }
+                }
+            );
+            $("#DropdownTips").hover(
+                function () {
+                    $("#ToggleOverigDropdown > div").addClass("hover");
+                },
+                function () {
+                    $("#DropdownTips").removeClass("show");
+                    $("#ToggleOverigDropdown  > div").removeClass("hover");
+                }
+            );
+
+            //dropdown over skillzilla
+            $("#ToggleProjectDropdown").hover(
+                function () {
+                    $("#DropdownOver").addClass("show");
+                    $("#ToggleProjectDropdown > div").addClass("hover");
+
+                },
+                function () {
+                    $("#ToggleProjectDropdown  > div").removeClass("hover");
+                    if (!$("#DropdownOver").is(':hover')) {
+                        $("#DropdownOver").removeClass("show");
+                    }
+                }
+            );
+            $("#DropdownOver").hover(
+                function () {
+                    $("#ToggleProjectDropdown > div").addClass("hover");
+                },
+                function () {
+                    $("#DropdownOver").removeClass("show");
+                    $("#ToggleProjectDropdown  > div").removeClass("hover");
+                }
+            );
+
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        for (j = 0; j < dropdown.length; j++) {
+                            dropdown[j].classList.remove("active");
+                            dropdown[j].nextElementSibling.style.display = "none";
+                        }
+                        dropdownContent.style.display = "block";
+                    }
+                    this.classList.toggle("active");
+                });
+            }
+
+        });
+
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/mapdata/custom/europe.js"></script>
+
+
+
+    <!-- sidenav -->
+    <div id="GetSidenav" class="sidenav">
+        <p href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</p>
+        <a href="/">Home</a>
+        <button class="dropdown-btn">
+            <span>Het onderzoek</span>
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/onderzoek/hoofdvraag">De hoofdvraag</a>
+            <a style="padding-bottom:25px;" href="/onderzoek/deelvragen">De deelvragen</a>
+            <div class="DarkblueTrapezium"></div>
+        </div>
+
+        <button class="dropdown-btn">
+            <span>Over het project</span>
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/project/aanleiding-project">Aanleiding project</a>
+            <a href="/project/opzet">Opzet project</a>
+            <a style="padding-bottom:25px;" href="/project/lectoraat-data-intelligence">Lectoraat Data Intelligence</a>
+            <div class="DarkblueTrapezium"></div>
+        </div>
+        <button class="dropdown-btn">
+            <span>
+                Overig
+            </span>
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/overig/referenties">Referenties</a>
+            <a style="padding-bottom:25px;" href="/overig/biasses">Biasses</a>
+            <div class="DarkblueTrapezium"></div>
+        </div>
+    </div>
+    <!-- end sidenav -->
+    <!-- Header -->
+    <div class="container-fluid no-gutters" style="padding: 0px; background-color: #107594;">
+        <div class="grid XlScreen">
+            <!--dropdowns 2-->
+            <div id="DropdownUitleg" class="dropdown-content">
+                <div class="grid">
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <h1>Het onderzoek:</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/onderzoek/hoofdvraag">
+                                <h3>De hoofdvraag</h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/onderzoek/deelvragen">
+                                <h3>De deelvragen</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="DarkblueTrapezium"></div>
+            </div>
+            <!--dropdowns 3-->
+            <div id="DropdownTips" class="dropdown-content">
+                <div class="grid">
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <h1>Overig</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/overig/referenties">
+                                <h3>Referenties</h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/overig/biasses">
+                                <h3>Biasses</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="DarkblueTrapezium"></div>
+            </div>
+            <!--dropdowns 4-->
+            <div id="DropdownOver" class="dropdown-content">
+                <div class="grid">
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <h1>Over het project</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/project/aanleiding-project">
+                                <h3>Aanleiding project</h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/project/opzet">
+                                <h3>Opzet van het project</h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-around">
+                            <a href="/project/lectoraat-data-intelligence">
+                                <h3>Lectoraat Data Intelligence</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="DarkblueTrapezium"></div>
+            </div>
+            <!-- header -->
+            <div class="row d-flex align-items-center" style="        padding: 0px;        margin: 0px;        background-color: #E7F4F8;">
+                <div class="col-xl-2 d-flex justify-content-end" style="min-height:14vh; padding: 0px; padding-left: 5vw;"> <img style="cursor:pointer;" class="logoLectoraat" title="Lectoraat Data Intelligence" src="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/01/Data_Intelligence_Logo_Tekengebied-1.png" onclick="window.location.href='https://dataintelligence.zuyd.nl/'" alt="Lectoraat Data Intelligence" /> </div>
+                <div class="col-xl-8 d-flex justify-content-center" style="padding: 0px;min-height:14vh;">
+                    <div class="d-flex align-items-center dropdown">
+                        <div class="HeaderContentpages">
+                            <div>
+                                <h3><a id="HomeHeaderContentpage" style="text-decoration:none;" href="/">Home</a></h3>
+                            </div>
+                        </div>
+                        <div id="ToggleOnderzoekDropdown" class="HeaderContentpages">
+                            <div>
+                                <h3 id="OnderzoekHeaderContentpage">Het onderzoek</h3>
+                            </div>
+                        </div>
+
+                        <div id="ToggleProjectDropdown" class="HeaderContentpages">
+                            <div>
+                                <h3 id="ProjectHeaderContentpage" class="dropbtn">Over het project</h3>
+                            </div>
+                        </div>
+                        <div id="ToggleOverigDropdown" class="HeaderContentpages">
+                            <div>
+                                <h3 id="OverigHeaderContentpage">Overig</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2" style="padding: 0px; max-height: 14vh;">
+                    <div class="logo">
+                        <a href="https://www.zuyd.nl" title="Zuyd Hogeschool" aria-label="Zuyd hogeschool">
+                            <!--?xml version="1.0" encoding="utf-8"?-->
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="148px" height="160px" viewBox="0 0 148 160" enable-background="new 0 0 148 160" xml:space="preserve">
+                            <path id="_x38_2d6a" d="M111.029,105.4c5.201,0,11.75-0.11,16.371,6.06c3.09,4.24,3.57,8.96,3.57,13.681
+								c0,19.569-12.521,20.039-21.591,20.239h-5.2v-39.989L111.029,105.4z M87.029,91.03v68.03h26.801c7.109-0.101,26.1-0.48,32.37-21.48
+								c0.86-2.9,1.729-7.24,1.729-13.12c0-9.53-2.699-19.069-9.729-25.43c-8.671-7.71-21.2-7.9-29.49-8H87.029z"></path>
+                            <path id="_x38_2d6b" d="M0.82,91.03h19.56l14.65,23.319c0.779-1.78,1.716-3.486,2.8-5.1l11.65-18.22h19.38
+								l-25.74,35.85v32.181H26.36v-31.701L0.82,91.02"></path>
+                            <path id="_x38_2d6c" d="M145.141,0.32v37.96c-0.101,6.56-0.201,13.11-3.951,19.28
+								c-7.33,11.75-22.459,12.33-25.35,12.33c-5.1,0-11.18-1.25-15.8-3.66c-13.101-6.75-13.101-18.7-13-27.95V0.32h17.14v42.4
+								c0,3.47,0.1,6.36,1.26,8.48c2.11,3.56,6.74,4.62,10.98,4.62c11.561,0,11.561-7.9,11.67-13.2V0.32H145.141"></path>
+                            <path id="_x38_2d6d" d="M9.06,0.32h54.92v13.3L26.9,54.95h36.9v13.4H5.88V55.63l37.68-42.02H9.06V0.32"></path>
+						</svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid SmScreen" style="position: relative; height: 100%;">
+            <!-- header -->
+            <div class="row" style="padding: 0px; margin: 0px; background-color: #E7F4F8;">
+                <div class="col-xl-12 d-flex justify-content-between" style="height: 15vh; padding: 0px 20px 0px 0px; padding-left: 5vw;">
+                    <img style="cursor:pointer;" class="logoLectoraat" title="Skillzilla homepage" src="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/01/Data_Intelligence_Logo_Tekengebied-1.png" onclick="window.location.href='/'" alt="Skillzilla" />
+                    <span class="sidenavbtn" style="color: #2c085d; cursor: pointer; align-self: center;" onclick="openNav()">
+                        <h2>☰</h2>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="min-height:56vh;">
+        {% block body %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="row" style="margin-top:5vh; background-color:black;">
+        <div class="col-xl-4" style="padding:0px 50px;">
+            <h2 style="color: white;">Contact Info</h2>
+            <p style="margin-top: 16px;color: white;" ><i style="color: white;" class="fa fa-map-marker"></i> Limburg, Nederland</p>
+            <p><a style="color: white;" href="https://dataintelligence.zuyd.nl/"><i class="fas fa-globe"></i> https://dataintelligence.zuyd.nl/</a></p>
+            <p><a style="color: white;" href="tel:0454006400"><i class="fa fa-phone"></i> 045 400 6400</a></p>
+            <p><a style="color: white;" href="mailto:lectoraat.dataintelligence@zuyd.nl"><i class="fa fa-envelope"> </i> lectoraat.dataintelligence@zuyd.nl</a></p>
+        </div>
+        <div class="col-xl-4 align-left-small"style="display: flex;align-items: center; flex-direction: column;">
+            <h2 style="color: white;" >Nieuwsgierig geworden?</h2>
+            <p style="margin-top: 16px;"><a style="color: white;" href="/project/aanleiding-project">Het ontstaan van het project</a></p>
+            <p><a style="color: white;" href="/onderzoek/hoofdvraag">Onderzoek covid-19</a></p>
+            <p><a style="color: white;" href="/overig/referenties">Referenties</a></p>
+            <p><a style="color: white;" href="/overig/biasses">Biasses</a></p>
+        </div>
+        <div class="align-left-small col-xl-4" style="display: flex;align-items: center; flex-direction: column; padding-bottom:20px;">
+            <h2 style="color:white;">Like Us</h2>
+            <div style="margin-top: 16px;" class="d-flex justify-content-center">
+                <a style="margin-right:30px; color:white;" href="https://www.facebook.com/ZuydICT/"><i class="w3-xlarge fab fa-facebook"></i></a><br>
+                <a style="margin-right:30px; color:white;" href="https://www.linkedin.com/school/hogeschool-zuyd-maastricht-heerlen-sittard-/"><i class="w3-xlarge fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/zuydict/" style="color: white;"><i class="w3-xlarge fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <p style="color:grey !important">Powered by <a href="https://dataintelligence.zuyd.nl/" style="color:grey !important" target="_blank">https://dataintelligence.zuyd.nl/</a></p>
+    </div>
+    <!-- Footer -->
+</body>
+
+
+</html>
+
+<style>
+    body {
+        background-color: #E7F4F8 !important;
+        font-family: 'Trebuchet MS';
+        padding: 0px 0px;
+        font-size: 16px;
+        min-height: 100vh;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+</style>
