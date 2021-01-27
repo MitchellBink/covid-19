@@ -57,7 +57,6 @@ Een antwoord op deze deelvraag kan niet volledig zijn, dit komt omdat Covid-19 v
 Het onderzoek _COVID-19 in the environment_. (2021, January 1) van ScienceDirect wordt aangegeven dat andere onderzoeken aangeven dat er een kans is dat het weer invloed heeft op covid-19 infecties, maar de onderzoeken konden dit niet volledige concluderen.
 
 
-
 ## Zit er een verschil in de verspreiding op een eiland en op het vasteland?
 Voor deze deelvraag is er een kort onderzoek gedaan waarbij er gekeken is naar 3 landen die als eiland geclassificeerd zijn en 3 landen die als vasteland gecategoriseerd zijn. Hierbij wordt naar Groot-Brittannië, Ierland en IJsland  gekeken als eilanden en er wordt naar Romania, Oostenrijk en Noorwegen gekeken als vasteland landen.
 
@@ -137,32 +136,31 @@ De maatregelen die de meeste landen (hetzij landelijk, hetzij regionaal) genomen
 Deze maatregelen kunnen alleen maar effectief zijn als ze landelijk geregeld worden. In een ideale situatie zou dit zelfs continentaal geregeld worden, omdat de meeste continenten een verdrag hebben tussen de landen per continent.
 
 De strengheid van de maatregelen kan gedefinieerd worden met de volgende formule (Oxford University, 2020):
-$$I =\frac{1}{9} \sum_{j=1}^9 I_j$$
+![formula_1](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_1.png)
 
 Hierbij geldt het volgende:
 
 I = de strengheid van een land tussen 0 en 100, waarbij 100 alle maatregelen op maximale strengheid worden toegediend;
-j = nummer van de maatregel
+j = het nummer van de maatregel
 
 Omdat niet elke maatregel dezelfde schaal heeft qua beoordelen, omdat in sommige gevallen meer nuance aangebracht kan worden, is er een formule die de weging van de maatregelen berekent ten opzichte van de ordinale schaal die deze indicatoren hebben:
-$$ w =\frac{1}{8} \sum_{j=1}^8 \frac{1}{N_j + 1} \approx 0,2854 $$
+![formula_2](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_2.png)
 
 Waarbij geldt dat:
 
-$N_j$ = de maximum in de ordinale schaal  $\to$ (0,1,2), Nj = 2
+![formula_5](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_5.png)
 
 Deze formule geldt voor de weging van alle maatregelen, behalve voor het controleren dan wel sluiten van grenzen. Dit omdat deze altijd landelijk worden geregeld, zal deze een andere formule krijgen uiteindelijk.
 
 Voor de berekening van een individuele indicator die al dan niet landelijk geregeld kan worden, en wat de strengheid van die indicator dus is, geldt het volgende:
 
-$$I_j =100 \left(C_j \frac{1-w}{N_j}+w \cdot G_j \right)$$
+![formula_3](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_3.png)
 
-$w \approx 0.2854$
-$G_j = $ 1 indien het landelijk is, anders 0
-$C_j = $ de waarde van de indicator (0,1,2,..)
+![formula_6](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_6.png)
+
 
 Voor de 8ste indicator geldt de volgende, omdat die alleen landelijk geregeld kan zijn:
-$$I_j =100 \left( \frac{C_8}{N_8} \right)$$
+![formula_4](https://github.com/MitchellBink/covid-19/blob/main/lfs/formula_4.png)
 
 Echter, de strengheid van een land hoeft geen correlatie te hebben met het aantal besmettingen, sterfgevallen, of andere cijfers, maar kunnen door een land te pas en te onpas opgelegd worden aan de bevolking. Er schijnt wel een overeenkomst te zijn als wanneer er pieken zijn, dat de strengheid van een land qua maatregelen ook hoger wordt, maar wanneer de aantallen afnemen nemen niet persé ook de maatregelen af qua strengheid.
 
