@@ -12,13 +12,13 @@ Dit project is uitgevoerd in opdracht van het **Lectoraat Data Intelligence** va
 
 ## Inhoud
 
-- Hebben temperaturen en klimaten invloed op de verspreiding van corona?
-- Zit er een verschil in de verspreiding op een eiland en op het vasteland?
-- Leidt een hogere bevolkingsdichtheid tot een hogere verspreiding?
-- Wat is het 'Reproductie getal' en de 'strengheid' van een land?
-- Is er een afwijking in de R-coëfficient in landen met vergelijkbare kenmerken (o.a. populatie) als Nederland en welke maatregelen zijn overeenkomend dan wel verschillend?
-- Aannames 
-- Referenties
+- [Hebben temperaturen en klimaten invloed op de verspreiding van corona?](https://github.com/MitchellBink/covid-19/blob/main/README.md#hebben-temperaturen-en-klimaten-invloed-op-de-verspreiding-van-corona)
+- [Zit er een verschil in de verspreiding op een eiland en op het vasteland?](https://github.com/MitchellBink/covid-19/blob/main/README.md#zit-er-een-verschil-in-de-verspreiding-op-een-eiland-en-op-het-vasteland)
+- [Leidt een hogere bevolkingsdichtheid tot een hogere verspreiding?](https://github.com/MitchellBink/covid-19/blob/main/README.md#leidt-een-hogere-bevolkingsdichtheid-tot-een-hogere-verspreiding)
+- [Wat is het 'Reproductie getal' en de 'strengheid' van een land?](https://github.com/MitchellBink/covid-19/blob/main/README.md#wat-is-het-reproductie-getal-en-de-strengheid-van-een-land)
+- [Is er een afwijking in de R-coëfficient in landen met vergelijkbare kenmerken (o.a. populatie) als Nederland en welke maatregelen zijn overeenkomend dan wel verschillend?](https://github.com/MitchellBink/covid-19/blob/main/README.md#is-er-een-afwijking-in-de-r-co%C3%ABfficient-in-landen-met-vergelijkbare-kenmerken-oa-populatie-als-nederland-en-welke-maatregelen-zijn-overeenkomend-dan-wel-verschillend)
+- [Aannames](https://github.com/MitchellBink/covid-19/blob/main/README.md#aannames)
+- [Referenties](https://github.com/MitchellBink/covid-19/blob/main/README.md#referenties)
 
 
 ## Hebben temperaturen en klimaten invloed op de verspreiding van corona?
