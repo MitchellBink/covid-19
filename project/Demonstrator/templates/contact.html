@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+
+{% block head %}
+<!-- Primary Meta Tags -->
+<title>{{meta_title}}</title>
+<meta name="title" content="{{meta_title}}">
+<meta name="description" content="{{meta_description}}">
+<link rel="canonical" href="{{rel_canonical}}" />
+<link itemprop="image" href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+<link rel='shortcut icon' type='image/x-icon' href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{rel_canonical}}">
+<meta property="og:title" content="{{meta_title}}">
+<meta property="og:description" content="{{meta_description}}">
+<meta property="og:image:alt" content="Covid-19, wat betekent de data?" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{rel_canonical}}">
+<meta property="twitter:title" content="{{meta_title}}">
+<meta property="twitter:description" content="{{meta_description}}">
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="padding:10%;">
+    <div class="grid">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-xl-4">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h1 style="color:#1f2a69">
+                            Zuyd Hogeschool Heerlen
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p>Het Lectoraat Data Intelligence is op twee plaatsen gevestigd. De hoofdvestiging van het lectoraat is in het gebouw van Zuyd Hogeschool, Nieuw Eyckholt 300 te Heerlen.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h2 style="color:#1f2a69">Brightlands Smart Services Campus</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p>
+                            Daarnaast zijn medewerkers van het lectoraat te vinden op de <a style="color: #1075912;" href="https://www.google.com/url?q=https%3A%2F%2Fwww.brightlands.com%2Fbrightlands-smart-services-campus&sa=D&sntz=1&usg=AFQjCNEol3U4IJr83YpB_xCM_zlZyRRcIA">Brightlands Smart Services Campus</a>, Smedestraat 2 te Heerlen.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h2 style="color:#1f2a69">Neem contact met ons op</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p>
+                            tel: <a style="color: #107594;" href="tel:0454006400">045-400-6400</a> / e-mail: <a style="color: #107594;" href="mailto:lectoraat.dataintelligence@zuyd.nl">lectoraat.dataintelligence@zuyd.nl</a> <br />
+                            Indien u een medewerker persoonlijk wilt benaderen, kunt u het volgende e-mailadres hanteren: voornaam.achternaam@zuyd.nl
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+            <div class="col-xl-4"></div>
+            <div class="col"></div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

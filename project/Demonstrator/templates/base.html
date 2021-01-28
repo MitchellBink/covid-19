@@ -65,20 +65,20 @@
             // checks url, makes current header green
             let pathname = window.location.pathname;
             if (pathname.includes("/onderzoek")) {
-                $("#SkillpaspoortHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $("#OnderzoekHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
                 $('.sidenavbtn').addClass('onderzoek');
             } else if (pathname.includes("/overig")) {
-                $("#OnderzoekHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $("#OverigHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
                 $('.sidenavbtn').addClass('overig');
             } else if (pathname.includes("/project")) {
-                $("#OverigHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
+                $("#ProjectHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
                 $('.sidenavbtn').addClass('project');
             } else {
                 $("#HomeHeaderContentpage").css({ "color": "#107594", "text-shadow": "0px 0px 1px #107594" })
                 $('.sidenavbtn').addClass('home');
             }
 
-            //dropdown skillzilla voor
+            //dropdown voor
             $("#ToggleOnderzoekDropdown").hover(
                 function () {
                     $("#DropdownUitleg").addClass("show");
@@ -196,8 +196,8 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="/onderzoek/hoofdvraag">De hoofdvraag</a>
-            <a style="padding-bottom:25px;" href="/onderzoek/deelvragen">De deelvragen</a>
+            <a href="/onderzoek/ontwikkeling-in-nederland">De ontwikkeling in Nederland</a>
+            <a style="padding-bottom:25px;" href="/onderzoek/epidemic calculator">Epidemic calculator</a>
             <div class="DarkblueTrapezium"></div>
         </div>
 
@@ -219,7 +219,6 @@
         </button>
         <div class="dropdown-container">
             <a href="/overig/referenties">Referenties</a>
-            <a style="padding-bottom:25px;" href="/overig/biasses">Biasses</a>
             <div class="DarkblueTrapezium"></div>
         </div>
     </div>
@@ -237,15 +236,15 @@
                     </div>
                     <div class="row">
                         <div class="col d-flex justify-content-around">
-                            <a href="/onderzoek/hoofdvraag">
-                                <h3>De hoofdvraag</h3>
+                            <a href="/onderzoek/ontwikkeling-in-nederland">
+                                <h3>De ontwikkeling in Nederland</h3>
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col d-flex justify-content-around">
-                            <a href="/onderzoek/deelvragen">
-                                <h3>De deelvragen</h3>
+                            <a href="/onderzoek/epidemic-calculator">
+                                <h3>Epidemic calculator</h3>
                             </a>
                         </div>
                     </div>
@@ -264,13 +263,6 @@
                         <div class="col d-flex justify-content-around">
                             <a href="/overig/referenties">
                                 <h3>Referenties</h3>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex justify-content-around">
-                            <a href="/overig/biasses">
-                                <h3>Biasses</h3>
                             </a>
                         </div>
                     </div>
@@ -363,7 +355,7 @@
                 <div class="col-xl-12 d-flex justify-content-between" style="height: 15vh; padding: 0px 20px 0px 0px; padding-left: 5vw;">
                     <img style="cursor:pointer;" class="logoLectoraat" title="Skillzilla homepage" src="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/01/Data_Intelligence_Logo_Tekengebied-1.png" onclick="window.location.href='/'" alt="Skillzilla" />
                     <span class="sidenavbtn" style="color: #2c085d; cursor: pointer; align-self: center;" onclick="openNav()">
-                        <h2>☰</h2>
+                        <i>☰</i>
                     </span>
                 </div>
             </div>
@@ -385,9 +377,8 @@
         <div class="col-xl-4 align-left-small"style="display: flex;align-items: center; flex-direction: column;">
             <h2 style="color: white;" >Nieuwsgierig geworden?</h2>
             <p style="margin-top: 16px;"><a style="color: white;" href="/project/aanleiding-project">Het ontstaan van het project</a></p>
-            <p><a style="color: white;" href="/onderzoek/hoofdvraag">Onderzoek covid-19</a></p>
-            <p><a style="color: white;" href="/overig/referenties">Referenties</a></p>
-            <p><a style="color: white;" href="/overig/biasses">Biasses</a></p>
+            <p><a style="color: white;" href="/onderzoek/ontwikkeling-in-nederland">De ontwikkeling in Nederland</a></p>
+            <p><a style="color: white;" href="/onderzoek/epidemic-calculator">epidemic-calculator</a></p>
         </div>
         <div class="align-left-small col-xl-4" style="display: flex;align-items: center; flex-direction: column; padding-bottom:20px;">
             <h2 style="color:white;">Like Us</h2>

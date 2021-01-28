@@ -12,6 +12,7 @@ from scipy import interpolate
 
 
 
+
 app = Flask(__name__)
 
 def getValuesCountry(countryName):
@@ -95,7 +96,7 @@ def index():
          'index.html',
          meta_title = 'Dashboard covid-19 - Zuyd Hogeschool',
          meta_description = 'Compare the numbers of the countries',
-         rel_canonical = '/test',
+         rel_canonical = '/',
          icon = 'https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-192x192.png',
          numbersNL = numbersNL,
          numbersBE = numbersBE,
@@ -139,35 +140,45 @@ def index():
 
 @app.route('/info')
 def info():
-    return render_template('info.html')
+    return render_template('info.html',
+           meta_title = 'Info - Zuyd Hogeschool',
+           meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
+           rel_canonical = '/info')
 
 @app.route('/project/aanleiding-project')
 def aanleiding():
-    return render_template('Aanleiding-project.html')
+    return render_template('Aanleiding-project.html',
+           meta_title = 'Aanleiding - Zuyd Hogeschool',
+           meta_description = 'Algemene aanleiding van het project',
+           rel_canonical = '/aanleiding-project')
 
-@app.route('/overig/biasses')
-def biasses():
-    return render_template('Biasses.html')
-
-@app.route('/onderzoek/deelvragen')
-def deelvragen():
-    return render_template('Deelvragen.html')
-
-@app.route('/onderzoek/hoofdvraag')
-def hoofdvraag():
-    return render_template('Hoofdvraag.html')
+@app.route('/onderzoek/ontwikkeling-in-nederland')
+def Ontwikkeling_in_Nederland():
+    return render_template('Ontwikkeling-in-Nederland.html', 
+                           meta_title = "Ontwikkeling in Nederland", 
+                           meta_description = "Hoe heeft covid-19 zich ontwikkeld in Nederland ten opzichte van andere Europese landen?",
+                           rel_canonical = "/onderzoek/ontwikkeling-in-nederland")
 
 @app.route('/project/lectoraat-data-intelligence')
 def lectoraat():
-    return render_template('Lectoraat.html')
+    return render_template('Lectoraat.html',
+           meta_title = 'Lectoraat Data Intelligence - Zuyd Hogeschool',
+           meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
+           rel_canonical = '/project/lectoraat-data-intelligence')
 
 @app.route('/project/opzet')
 def opzet():
-    return render_template('Opzet.html')
+    return render_template('Opzet.html',
+           meta_title = 'Opzet - Zuyd Hogeschool',
+           meta_description = 'Algemene opzet over het Lectoraat Data Intelligence',
+           rel_canonical = '/info')
 
-@app.route('/overig/referenties')
+@app.route('/overig/contact')
 def referenties():
-    return render_template('Referenties.html')
+    return render_template('Contact.html',
+           meta_title = 'Contact - Zuyd Hogeschool',
+           meta_description = 'Contacteer het Lectoraat Data Intelligence',
+           rel_canonical = '/overig/contact')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -268,15 +279,21 @@ def update_graph(initial_cases, initial_date, population, icu_beds, p_I_to_C, p_
 
     return  (dates, S, E, I, C, R, D, R_0_over_time, total_CFR, daily_CFR, B, list([0] + [round(D[i]-D[i-1],3) for i in range(1, len(dates))]), list([0] + [max(0, round(C[i-1]-B[i-1],3)) for i in range(1, len(dates))]))
 
-@app.route('/epidemic-calculator', methods =['POST','GET'])
+@app.route('/onderzoek/epidemic-calculator', methods =['POST','GET'])
 def calc():
     if request.method == 'POST':
         results = request.form
-        return render_template("Epidemic-calculator.html", result = results)
+        return render_template("Epidemic-calculator.html", result = results,
+           meta_title = 'Epidemic calculator - Zuyd Hogeschool',
+           meta_description = 'Epidemic calculator',
+           rel_canonical = '/onderzoek/epidemic-calculator')
     if request.method == 'GET':
         ax = update_graph(1,"2020-01-01",17700000,10,5.0,5.0,[ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-02-01", "R value" : 2.9},{"Date" : "2020-03-01", "R value" : 2.5},{"Date" : "2020-04-01", "R value" : 0.8},{"Date" : "2020-05-01", "R value" : 1.1},{"Date" : "2020-06-01", "R value" : 2},{"Date" : "2020-07-01", "R value" : 2.1},{"Date" : "2020-08-01", "R value" : 2.2},{"Date" : "2020-09-01", "R value" : 2.3}],    [ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2}     ])
-        return render_template("Epidemic-calculator.html", results = list(ax))
+        return render_template("Epidemic-calculator.html", results = list(ax),
+           meta_title = 'Epidemic calculator - Zuyd Hogeschool',
+           meta_description = 'Epidemic calculator',
+           rel_canonical = '/onderzoek/epidemic-calculator')
     
     
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
