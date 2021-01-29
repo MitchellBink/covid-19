@@ -145,12 +145,12 @@ def info():
            meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
            rel_canonical = '/info')
 
-@app.route('/project/aanleiding-project')
+@app.route('/project/doelstelling-project')
 def aanleiding():
-    return render_template('Aanleiding-project.html',
-           meta_title = 'Aanleiding - Zuyd Hogeschool',
-           meta_description = 'Algemene aanleiding van het project',
-           rel_canonical = '/aanleiding-project')
+    return render_template('doelstelling-project.html',
+           meta_title = 'Doelstelling - Zuyd Hogeschool',
+           meta_description = 'Doelstelling van het project',
+           rel_canonical = '/project/doelstelling-project')
 
 @app.route('/onderzoek/ontwikkeling-in-nederland')
 def Ontwikkeling_in_Nederland():
@@ -166,12 +166,12 @@ def lectoraat():
            meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
            rel_canonical = '/project/lectoraat-data-intelligence')
 
-@app.route('/project/opzet')
+@app.route('/project/achtergrond-project')
 def opzet():
-    return render_template('Opzet.html',
-           meta_title = 'Opzet - Zuyd Hogeschool',
-           meta_description = 'Algemene opzet over het Lectoraat Data Intelligence',
-           rel_canonical = '/info')
+    return render_template('achtergrond-project.html',
+           meta_title = 'Achtergrond - Zuyd Hogeschool',
+           meta_description = 'De achtergrond over het project',
+           rel_canonical = '/project/achtergrond-project')
 
 @app.route('/overig/contact')
 def referenties():

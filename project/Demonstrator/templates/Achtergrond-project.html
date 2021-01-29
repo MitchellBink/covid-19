@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+
+{% block head %}
+<!-- Primary Meta Tags -->
+<title>{{meta_title}}</title>
+<meta name="title" content="{{meta_title}}">
+<meta name="description" content="{{meta_description}}">
+<link rel="canonical" href="{{rel_canonical}}" />
+<link itemprop="image" href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+<link rel='shortcut icon' type='image/x-icon' href="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png" sizes="32x32">
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{rel_canonical}}">
+<meta property="og:title" content="{{meta_title}}">
+<meta property="og:description" content="{{meta_description}}">
+<meta property="og:image:alt" content="Covid-19, wat betekent de data?" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{rel_canonical}}">
+<meta property="twitter:title" content="{{meta_title}}">
+<meta property="twitter:description" content="{{meta_description}}">
+<meta property="og:image" content="https://dataintelligence.zuyd.nl/wp-content/uploads/2020/09/cropped-Penrose-driehoek-32x32.png">
+{% endblock %}
+
+
+{% block content %}
+
+<div style="padding:10%;">
+    <div class="grid">
+        <div class="row">
+            <div class="col-xl-12">
+                <p>Het nieuwe coronavirus - SARS-CoV-2 - dat de ziekte COVID-19 veroorzaakt werd voor het eerst ontdekt in Wuhan, China, in december 2019. In de daaropvolgende dagen en weken begon het virus zich snel te verspreiden in heel China. Niet veel later kwam het virus ook in andere buurlanden en andere continenten voor. Op 11 maart 2020 verklaarde de Wereldgezondheidsorganisatie (WHO) het officieel tot een pandemie. Op dit moment (16 november 2020) meldt de WHO 54.978.144 bevestigde gevallen en 1,326.806 bevestigde sterfgevallen wereldwijd. Tot nu toe heeft de het coronavirusonvoorstelbare gevolgen gehad voor de hele wereld, en wie weet wat er nog gaat gebeuren. We kunnen stellen dat de covid-19 crisis een van de grootste uitdagingen is waarmee de wereld sinds decennia wordt geconfronteerd. Als gevolg daarvan nemen regeringen maatregelen om de verspreiding van de ziekte te vertragen, zoals het sluiten van scholen, hotels en restaurants en het afdwingen van een sociaal beleid. Veel van deze pogingen hebben de intentie om het aantal nieuwe coronavirusinfecties te verminderen en/of uit te stellen, zodat de gezondheidszorg in staat is om de stijging op te vangen. Met name ter ondersteuning van de intensive care (IC) eenheden waar de pati&#235;nten met ernstige aandoeningen worden behandeld, aangezien deze eenheden een beperkte capaciteithebben. Dit concept wordt meestal omschreven als - flattening the curve. - Om gerechtvaardigde beslissingen te kunnen nemen, moet de politiek echter vertrouwen op het advies van experts binnen verschillende vakgebieden, zoals medische experts, economen en datawetenschappers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock %}
