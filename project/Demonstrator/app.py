@@ -93,7 +93,7 @@ numbersEST  = getValuesCountry('EST')
 numbersDNK  = getValuesCountry('DNK')
 numbersCZE  = getValuesCountry('CZE')
 
-@app.route('/')
+@app.route('/', methods = ['GET'])
 def index():
      return render_template(
          'index.html',
@@ -141,21 +141,21 @@ def index():
     
 
 
-@app.route('/info')
+@app.route('/info', methods = ['GET'])
 def info():
     return render_template('info.html',
            meta_title = 'Info - Zuyd Hogeschool',
            meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
            rel_canonical = '/info')
 
-@app.route('/project/doelstelling-project')
+@app.route('/project/doelstelling-project', methods = ['GET'])
 def aanleiding():
     return render_template('doelstelling-project.html',
            meta_title = 'Doelstelling - Zuyd Hogeschool',
            meta_description = 'Doelstelling van het project',
            rel_canonical = '/project/doelstelling-project')
 
-@app.route('/onderzoek/ontwikkeling-in-nederland')
+@app.route('/onderzoek/ontwikkeling-in-nederland', methods = ['GET'])
 def Ontwikkeling_in_Nederland():
     marked_text = ''
     with open("README.md", encoding="utf8") as f:
@@ -165,21 +165,21 @@ def Ontwikkeling_in_Nederland():
                            meta_description = "Hoe heeft covid-19 zich ontwikkeld in Nederland ten opzichte van andere Europese landen?",
                            rel_canonical = "/onderzoek/ontwikkeling-in-nederland", md=Markup(marked_text))
 
-@app.route('/project/lectoraat-data-intelligence')
+@app.route('/project/lectoraat-data-intelligence', methods = ['GET'])
 def lectoraat():
     return render_template('Lectoraat.html',
            meta_title = 'Lectoraat Data Intelligence - Zuyd Hogeschool',
            meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
            rel_canonical = '/project/lectoraat-data-intelligence')
 
-@app.route('/project/achtergrond-project')
+@app.route('/project/achtergrond-project', methods = ['GET'])
 def opzet():
     return render_template('achtergrond-project.html',
            meta_title = 'Achtergrond - Zuyd Hogeschool',
            meta_description = 'De achtergrond over het project',
            rel_canonical = '/project/achtergrond-project')
 
-@app.route('/overig/contact')
+@app.route('/overig/contact', methods = ['GET'])
 def referenties():
     return render_template('Contact.html',
            meta_title = 'Contact - Zuyd Hogeschool',
