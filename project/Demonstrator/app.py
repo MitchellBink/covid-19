@@ -141,12 +141,6 @@ def index():
     
 
 
-@app.route('/info', methods = ['GET'])
-def info():
-    return render_template('info.html',
-           meta_title = 'Info - Zuyd Hogeschool',
-           meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
-           rel_canonical = '/info')
 
 @app.route('/project/doelstelling-project', methods = ['GET'])
 def aanleiding():
@@ -160,14 +154,14 @@ def Ontwikkeling_in_Nederland():
     marked_text = ''
     with open("README.md", encoding="utf8") as f:
         marked_text = markdown2.markdown(f.read(),extras=['fenced-code-blocks'])
-    return render_template('Ontwikkeling-in-Nederland.html', 
+    return render_template('ontwikkeling-in-nederland.html', 
                            meta_title = "Ontwikkeling in Nederland", 
                            meta_description = "Hoe heeft covid-19 zich ontwikkeld in Nederland ten opzichte van andere Europese landen?",
                            rel_canonical = "/onderzoek/ontwikkeling-in-nederland", md=Markup(marked_text))
 
 @app.route('/project/lectoraat-data-intelligence', methods = ['GET'])
 def lectoraat():
-    return render_template('Lectoraat.html',
+    return render_template('lectoraat.html',
            meta_title = 'Lectoraat Data Intelligence - Zuyd Hogeschool',
            meta_description = 'Algemene informatie over het Lectoraat Data Intelligence',
            rel_canonical = '/project/lectoraat-data-intelligence')
@@ -181,7 +175,7 @@ def opzet():
 
 @app.route('/overig/contact', methods = ['GET'])
 def referenties():
-    return render_template('Contact.html',
+    return render_template('contact.html',
            meta_title = 'Contact - Zuyd Hogeschool',
            meta_description = 'Contacteer het Lectoraat Data Intelligence',
            rel_canonical = '/overig/contact')
@@ -338,7 +332,7 @@ def calc():
         x_range = getnums(start, end,intval) 
             
         ax = update_graph(int(form_Initial_cases_range), str(form_start_date), int(form_population_range), int(form_ICU_beds_range), float(form_p_symptoms_range), float(form_p_dying_range), listOfRdata, listOfRcolumns, x_range, form_end_date, int(form_days))
-        return render_template("Epidemic-calculator.html", 
+        return render_template("epidemic-calculator.html", 
                results = list(ax),
                default_values = [str(form_start_date), int(form_population_range), int(form_Initial_cases_range), int(form_ICU_beds_range), float(form_p_symptoms_range), float(form_p_dying_range), str(form_end_date), int(form_days), list_r_values],
 
@@ -354,7 +348,7 @@ def calc():
         start, end, intval = 0, 9,1
         x_range = getnums(start, end,intval) 
         ax = update_graph(1,"2020-01-01",17700000,10,5.0,5.0,[ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-02-01", "R value" : 2.9},{"Date" : "2020-03-01", "R value" : 2.5},{"Date" : "2020-04-01", "R value" : 0.8},{"Date" : "2020-05-01", "R value" : 1.1},{"Date" : "2020-06-01", "R value" : 2},{"Date" : "2020-07-01", "R value" : 2.1},{"Date" : "2020-08-01", "R value" : 2.2},{"Date" : "2020-09-01", "R value" : 2.3}],    [ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2}     ],x_range, "2020-09-01", 360)
-        return render_template("Epidemic-calculator.html", 
+        return render_template("epidemic-calculator.html", 
                results = list(ax),
                default_values = ["2020-01-01", 17800000, 1, 10, 5.0, 5.0, "2020-09-01", 360, [3.2, 2.9,2.5,0.8,1.1,2,2.1,2.2,2.3]],
            meta_title = 'Epidemic calculator - Zuyd Hogeschool',
