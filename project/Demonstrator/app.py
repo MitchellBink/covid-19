@@ -4,12 +4,15 @@ Created on Sat Dec 12 17:10:15 2020
 
 @author: Mitchell Bink, Max Kleinman en Sandro Offermans"""
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Markup
 import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
 from scipy import interpolate
-
+import markdown2
+import dateutil
+import datetime
+from os import environ
 
 
 
@@ -154,10 +157,13 @@ def aanleiding():
 
 @app.route('/onderzoek/ontwikkeling-in-nederland')
 def Ontwikkeling_in_Nederland():
+    marked_text = ''
+    with open("README.md", encoding="utf8") as f:
+        marked_text = markdown2.markdown(f.read(),extras=['fenced-code-blocks'])
     return render_template('Ontwikkeling-in-Nederland.html', 
                            meta_title = "Ontwikkeling in Nederland", 
                            meta_description = "Hoe heeft covid-19 zich ontwikkeld in Nederland ten opzichte van andere Europese landen?",
-                           rel_canonical = "/onderzoek/ontwikkeling-in-nederland")
+                           rel_canonical = "/onderzoek/ontwikkeling-in-nederland", md=Markup(marked_text))
 
 @app.route('/project/lectoraat-data-intelligence')
 def lectoraat():
@@ -218,8 +224,8 @@ sigma = 1.0/3.0
 def logistic_R_0(t, R_0_start, k, x0, R_0_end):
     return (R_0_start-R_0_end) / (1 + np.exp(-k*(-t+x0))) + R_0_end
 
-def Model(initial_cases, initial_date, N, beds_per_100k, R_0_start, k, x0, R_0_end, p_I_to_C, p_C_to_D, s, r0_y_interpolated=None):
-    days = 360
+def Model(initial_cases, initial_date, N, beds_per_100k, R_0_start, k, x0, R_0_end, p_I_to_C, p_C_to_D, s, end_date, total_days, r0_y_interpolated=None):
+    days = total_days
     def beta(t):
         return logistic_R_0(t, R_0_start, k, x0, R_0_end) * gamma
     
@@ -235,7 +241,7 @@ def Model(initial_cases, initial_date, N, beds_per_100k, R_0_start, k, x0, R_0_e
         r0_y_interpolated = r0_y_interpolated[(-diff):]
 
     last_date = np.datetime64(initial_date) + np.timedelta64(days-1, "D")
-    missing_days_r0 = int((last_date - np.datetime64("2020-09-01")) / np.timedelta64(1, "D"))
+    missing_days_r0 = int((last_date - np.datetime64(end_date)) / np.timedelta64(1, "D"))
     r0_y_interpolated += [r0_y_interpolated[-1] for _ in range(missing_days_r0+1)]
 
     y0 = N-initial_cases, initial_cases, 0.0, 0.0, 0.0, 0.0
@@ -251,7 +257,6 @@ def Model(initial_cases, initial_date, N, beds_per_100k, R_0_start, k, x0, R_0_e
 
 
 
-    # dates = pd.date_range(start=np.datetime64(initial_date), periods=days, freq="D")
     dates = []
     ax = pd.DataFrame(index=pd.date_range(start=(initial_date), periods=days))
 
@@ -260,10 +265,10 @@ def Model(initial_cases, initial_date, N, beds_per_100k, R_0_start, k, x0, R_0_e
         item = item.replace(' 00:00:00','').replace('-',', ')
         dates.append(item) 
         
-    return dates, list([round(s,3) for s in S]), list([round(e,3) for e in E]), list([round(i,3) for i in I]), list([round(c,3) for c in C]), list([round(r,3) for r in R]), list([round(d,3) for d in D]), R_0_over_time, list([round(total_cfr,3) for total_cfr in total_CFR]), list([round(daily_cfr,3) for daily_cfr in daily_CFR]), [Beds(i) for i in range(len(t))]
+    return dates, list([round(s,3) for s in S]), list([round(e,3) for e in E]), list([round(i,3) for i in I]), list([round(c,3) for c in C]), list([round(r,3) for r in R]), list([round(d,3) for d in D]), R_0_over_time, list([round(total_cfr,3) for total_cfr in total_CFR]), list([round(daily_cfr,3) for daily_cfr in daily_CFR]), [Beds(i) for i in range(len(t))], end_date, total_days
 
 
-def update_graph(initial_cases, initial_date, population, icu_beds, p_I_to_C, p_C_to_D, r0_data, r0_columns):
+def update_graph(initial_cases, initial_date, population, icu_beds, p_I_to_C, p_C_to_D, r0_data, r0_columns, range_x, end_date, total_days):
     
     last_initial_date, last_population, last_icu_beds, last_p_I_to_C, last_p_C_to_D = "2020-01-15", 1_000_000, 5.0, 5.0, 50.0
     if not (initial_date and population and icu_beds and p_I_to_C and p_C_to_D):
@@ -271,29 +276,96 @@ def update_graph(initial_cases, initial_date, population, icu_beds, p_I_to_C, p_
 
 
     r0_data_y = [datapoint["R value"] if ((not np.isnan(datapoint["R value"])) and (datapoint["R value"] >= 0)) else 0 for datapoint in r0_data]
-    f = interpolate.interp1d([0, 1, 2, 3, 4, 5, 6, 7, 8], r0_data_y, kind='linear')
-    r0_x_dates = pd.date_range(start=np.datetime64("2020-01-01"), end=np.datetime64("2020-09-01"), freq="D")
-    r0_y_interpolated = f(np.linspace(0, 8, num=len(r0_x_dates))).tolist()
+    f = interpolate.interp1d(range_x, r0_data_y, kind='linear')
+    r0_x_dates = pd.date_range(start=np.datetime64(initial_date), end=np.datetime64(end_date), freq="D")
+    r0_y_interpolated = f(np.linspace(0, len(range_x)-1, num=len(r0_x_dates))).tolist()
 
-    dates, S, E, I, C, R, D, R_0_over_time, total_CFR, daily_CFR, B = Model(initial_cases, initial_date, population, icu_beds, 3.0, 0.01, 50, 2.3, float(p_I_to_C)/100, float(p_C_to_D)/100, 0.001, r0_y_interpolated)
+    dates, S, E, I, C, R, D, R_0_over_time, total_CFR, daily_CFR, B, date_end, days_total = Model(initial_cases, initial_date, population, icu_beds, 3.0, 0.01, 50, 2.3, float(p_I_to_C)/100, float(p_C_to_D)/100, 0.001,  end_date, total_days, r0_y_interpolated)
 
     return  (dates, S, E, I, C, R, D, R_0_over_time, total_CFR, daily_CFR, B, list([0] + [round(D[i]-D[i-1],3) for i in range(1, len(dates))]), list([0] + [max(0, round(C[i-1]-B[i-1],3)) for i in range(1, len(dates))]))
 
 @app.route('/onderzoek/epidemic-calculator', methods =['POST','GET'])
 def calc():
     if request.method == 'POST':
-        results = request.form
-        return render_template("Epidemic-calculator.html", result = results,
-           meta_title = 'Epidemic calculator - Zuyd Hogeschool',
-           meta_description = 'Epidemic calculator',
-           rel_canonical = '/onderzoek/epidemic-calculator')
+        form_population_range = request.form.get('population_range')
+        form_ICU_beds_range = request.form.get('ICU_beds_range')
+        form_Initial_cases_range = request.form.get('Initial_cases_range')
+        form_p_symptoms_range = request.form.get('p_symptoms_range')
+        form_p_dying_range = request.form.get('p_dying_range')
+        form_start_date = request.form.get('start_date_picker')
+        form_months = request.form.get('countofMonths')
+        form_end_date = request.form.get('end_date_picker')
+        form_days = request.form.get('valueOfDays')
+        
+        if (type(form_population_range) == type(None)):
+            form_population_range = 17800000
+        if (type(form_ICU_beds_range) == type(None)):
+            form_ICU_beds_range = 10
+        if (type(form_Initial_cases_range) == type(None)):
+            form_Initial_cases_range = 1
+        if (type(form_p_symptoms_range) == type(None)):
+            form_p_symptoms_range = 5.0
+        if (type(form_p_dying_range) == type(None)):
+            form_p_dying_range = 5.0
+        if (type(form_start_date) == type(None)):
+            form_start_date = "2020-01-01"
+        if (type(form_end_date) == type(None)):
+            form_end_date = "2020-09-01"
+        if (type(form_months) == type(None)):
+            form_months = 9
+        else:
+            form_months = int(form_months)
+            
+        listOfRdata = []
+        listOfRcolumns = []
+        list_r_values = []
+        a_month = dateutil.relativedelta.relativedelta(months=int(1))  
+        a_date = datetime.datetime.strptime(form_start_date, "%Y-%m-%d")
+        for vals in range(form_months):
+            tem_date = str(a_date)
+            temp_r = 'r_value_' + str(vals)
+            r_value = request.form.get(temp_r)
+            listOfRdata.append({"Date": str(tem_date[0:10]), "R value": float(r_value)})
+            listOfRcolumns.append({"Date": str(tem_date[0:10]), "R value": float(r_value)})
+            list_r_values.append(r_value)
+            a_date += a_month
+
+        def getnums(s, e,i):
+           return list(range(s, e,i))
+        
+        # Driver Code
+        start, end, intval = 0, form_months,1
+        x_range = getnums(start, end,intval) 
+            
+        ax = update_graph(int(form_Initial_cases_range), str(form_start_date), int(form_population_range), int(form_ICU_beds_range), float(form_p_symptoms_range), float(form_p_dying_range), listOfRdata, listOfRcolumns, x_range, form_end_date, int(form_days))
+        return render_template("Epidemic-calculator.html", 
+               results = list(ax),
+               default_values = [str(form_start_date), int(form_population_range), int(form_Initial_cases_range), int(form_ICU_beds_range), float(form_p_symptoms_range), float(form_p_dying_range), str(form_end_date), int(form_days), list_r_values],
+
+        meta_title = 'Epidemic calculator - Zuyd Hogeschool',
+        meta_description = 'Epidemic calculator',
+        rel_canonical = '/onderzoek/epidemic-calculator')
+    
     if request.method == 'GET':
-        ax = update_graph(1,"2020-01-01",17700000,10,5.0,5.0,[ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-02-01", "R value" : 2.9},{"Date" : "2020-03-01", "R value" : 2.5},{"Date" : "2020-04-01", "R value" : 0.8},{"Date" : "2020-05-01", "R value" : 1.1},{"Date" : "2020-06-01", "R value" : 2},{"Date" : "2020-07-01", "R value" : 2.1},{"Date" : "2020-08-01", "R value" : 2.2},{"Date" : "2020-09-01", "R value" : 2.3}],    [ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2}     ])
-        return render_template("Epidemic-calculator.html", results = list(ax),
+        def getnums(s, e,i):
+           return list(range(s, e,i))
+        
+        # Driver Code
+        start, end, intval = 0, 9,1
+        x_range = getnums(start, end,intval) 
+        ax = update_graph(1,"2020-01-01",17700000,10,5.0,5.0,[ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-02-01", "R value" : 2.9},{"Date" : "2020-03-01", "R value" : 2.5},{"Date" : "2020-04-01", "R value" : 0.8},{"Date" : "2020-05-01", "R value" : 1.1},{"Date" : "2020-06-01", "R value" : 2},{"Date" : "2020-07-01", "R value" : 2.1},{"Date" : "2020-08-01", "R value" : 2.2},{"Date" : "2020-09-01", "R value" : 2.3}],    [ {"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2},{"Date" : "2020-01-01", "R value" : 3.2}     ],x_range, "2020-09-01", 360)
+        return render_template("Epidemic-calculator.html", 
+               results = list(ax),
+               default_values = ["2020-01-01", 17800000, 1, 10, 5.0, 5.0, "2020-09-01", 360, [3.2, 2.9,2.5,0.8,1.1,2,2.1,2.2,2.3]],
            meta_title = 'Epidemic calculator - Zuyd Hogeschool',
            meta_description = 'Epidemic calculator',
            rel_canonical = '/onderzoek/epidemic-calculator')
     
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    HOST = environ.get('SERVER_HOST', 'localhost')
+    try:
+        PORT = int(environ.get('SERVER_PORT', '5555'))
+    except ValueError:
+        PORT = 5000
+    app.run(HOST, PORT)

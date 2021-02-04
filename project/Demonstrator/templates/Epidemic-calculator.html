@@ -36,42 +36,101 @@
 
 <div class="grid">
     <div class="row">
-        <div class="col-xs-1"></div>
-        <div class="col-xl-6">
+        <div class="col"></div>
+        <div class="col-xl-11">
             <!--input form for results-->
-            <form action="/epidemic-calculator" method="POST">
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="population_range">
-                    <p>Value: <span id="Population"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="ICU beds per 100k people">
-                    <p>Value: <span id="Population"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="Initial cases">
-                    <p>Value: <span id="Population"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="5" class="slider" id="Probality of going to the ICU when infected (critical symptoms) (%)">
-                    <p>Value: <span id="Population"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="5" class="slider" id="Probablity of dying (%)">
-                    <p>Value: <span id="Population"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="date" id="start_date_picker" name="start_date_picker">
-                    <p>Value: <span id="End date"></span></p>
-                </div>
-                <div class="slidecontainer">
-                    <input type="date" id="end_date_picker" name="end_date_picker">
-                    <p>Value: <span id="End date"></span></p>
+            <form action="/onderzoek/epidemic-calculator" method="POST">
+                <input id="countofMonths" name="countofMonths" style="display:none;"></input>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="range" title="Population" min="10000" max="1000000000" step="10000" class="slider" id="population_range" name="population_range">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>Population value: <span id="population"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="range" min="1" title="ICU" max="100" step="1" class="slider" id="ICU_beds_range" name="ICU_beds_range">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>ICU beds per 100k people: <span id="ICU_beds"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="range" min="1" title="Initial cases" max="10" step="1" class="slider" id="Initial_cases_range" name="Initial_cases_range">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>Initial cases: <span id="Initial_cases"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="range" min="1" title="Symptoms" max="100" step="0.1" class="slider" id="p_symptoms_range" name="p_symptoms_range">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>Probality of going to the ICU when infected (critical symptoms) (%): <span id="p_symptoms"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="range" min="1" max="100" title="Dying probability" step="0.1" class="slider" id="p_dying_range" name="p_dying_range">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>Probablity of dying (%): <span id="p_dying"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="date" id="start_date_picker" data-date="" title="Start date" data-date-format="DD MMMM YYYY" name="start_date_picker">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>Start date: <span id="start_date"></span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <input type="date" id="end_date_picker" data-date="" title="End date" value="2020-09-01" data-date-format="DD MMMM YYYY" name="end_date_picker">
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <p>End date: <span id="end_date"></span></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col-xl-3">
+                                    <button type="submit">Calculate again</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <table id="TableR_Index">
+                            </table>
+                        </div>
+                        <div class="col-xl-2">
+                            <label>
+                                Amount of days to plot:
+                            </label>
+                            <input name="valueOfDays" id="valueOfDays" value="360"/>
+                        </div>
+                    </div>
                 </div>
 
             </form>
         </div>
-        <div class="col-xs-1"></div>
+        <div class="col"></div>
     </div>
 
     <div class="row">
@@ -110,11 +169,165 @@
         <div class="col"></div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<style>
+    td {
+        width: 150px;
+        padding:3px;
+        height: 40px;
+        border: 1px solid grey;
+    }
+</style>
+<script>
+    var sliderPopulation = document.getElementById("population_range");
+    var outputPopulation = document.getElementById("population");
+    outputPopulation.innerHTML = sliderPopulation.value;
+
+    sliderPopulation.oninput = function () {
+        outputPopulation.innerHTML = this.value;
+    }
+    var sliderICU = document.getElementById("ICU_beds_range");
+    var outputICU = document.getElementById("ICU_beds");
+    outputICU.innerHTML = sliderICU.value;
+
+    sliderICU.oninput = function () {
+        outputICU.innerHTML = this.value;
+    }
+    var sliderCases = document.getElementById("Initial_cases_range");
+    var outputCases = document.getElementById("Initial_cases");
+    outputCases.innerHTML = sliderCases.value;
+
+    sliderCases.oninput = function () {
+        outputCases.innerHTML = this.value;
+    }
+    var sliderSymptoms = document.getElementById("p_symptoms_range");
+    var outputSymptoms = document.getElementById("p_symptoms");
+    outputSymptoms.innerHTML = sliderSymptoms.value;
+
+    sliderSymptoms.oninput = function () {
+        outputSymptoms.innerHTML = this.value;
+    }
+    var sliderDying = document.getElementById("p_dying_range");
+    var outputDying = document.getElementById("p_dying");
+    outputDying.innerHTML = sliderDying.value;
+
+    sliderDying.oninput = function () {
+        outputDying.innerHTML = this.value;
+    }
+
+    var sliderStart = document.getElementById("start_date_picker");
+    var outputStart = document.getElementById("start_date");
+    outputStart.innerHTML = moment(sliderStart.value).format(sliderStart.getAttribute("data-date-format"));
+
+    sliderStart.oninput = function () {
+        outputStart.innerHTML = moment(this.value).format(this.getAttribute("data-date-format"));
+        makeTable(_defaults[8])
+
+    }
+
+    var sliderEnd = document.getElementById("end_date_picker");
+    var outputEnd = document.getElementById("end_date");
+    outputEnd.innerHTML = moment(sliderEnd.value).format(sliderEnd.getAttribute("data-date-format"));
+
+    sliderEnd.oninput = function () {
+        outputEnd.innerHTML = moment(this.value).format(this.getAttribute("data-date-format"));
+        makeTable(_defaults[8])
+    }
 
 
+    function makeTable(list_r_values) {
+        let AmountOfMonths = monthDiff($("#start_date_picker").val(), $("#end_date_picker").val()) + 1
+        // Find a <table> element with id="myTable":
+        var table = document.getElementById("TableR_Index");
+        if (table != null) {
+            $("#TableR_Index tr").remove();
+        }
+
+        $("#countofMonths").val(AmountOfMonths);
+
+
+
+        for (let countMonths = 0; countMonths < AmountOfMonths; countMonths++) {
+            let newDate = new Date($("#start_date_picker").val());
+            newDate = newDate.setMonth(newDate.getMonth() + countMonths);
+            newDate = new Date(newDate);
+            let r_value
+            try {
+                r_value = list_r_values[countMonths];
+            }
+            catch(error){
+                r_value = 1;
+            }
+            // Create an empty <tr> element and add it to the 1st position of the table:
+            var row = table.insertRow(countMonths);
+
+
+            var cell2 = document.createElement('input');
+            // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+            var cell1 = row.insertCell(0);
+            cell2 = row.insertCell(1);
+
+            // Add some text to the new cells:
+            cell2.innerHTML = '<input id="r_value_' + countMonths + '" name="r_value_' + countMonths + '" value=' + r_value + '></input>';
+
+            var day = newDate.getDate();
+            var month = newDate.getMonth() + 1;
+            var year = newDate.getFullYear();
+
+            cell1.innerHTML = '<p id="r_date_' + countMonths + '">' + (day + "-" + month + "-" + year).toString() + '</p>';
+        }
+
+        var header = table.createTHead();
+        var THrow = header.insertRow(0)
+        var cell1TH = THrow.insertCell(0);
+        var cell2TH = THrow.insertCell(1);
+        // Add some bold text in the new cell:
+        cell1TH.innerHTML = "<b>Months</b>";
+        // Add some bold text in the new cell:
+        cell2TH.innerHTML = "<b>R-index</b>"; 
+
+    }
+    function monthDiff(d1, d2) {
+        d1 = new Date(d1);
+        d2 = new Date(d2);
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth();
+        months += d2.getMonth();
+        return months <= 0 ? 0 : months;
+    }
+
+    //function sleep(milliseconds) {
+    //    const date = Date.now();
+    //    let currentDate = null;
+    //    do {
+    //        currentDate = Date.now();
+    //    } while (currentDate - date < milliseconds);
+    //}
+</script>
 <script>
     _results = {{ results | safe }}
-    console.log(_results[0][0]);
+    _defaults = {{ default_values | safe }}
+    console.log(_defaults);
+
+    $("#population_range").val(_defaults[1]);
+    $("#ICU_beds_range").val(_defaults[3]);
+    $("#Initial_cases_range").val(_defaults[2]);
+    $("#p_symptoms_range").val(_defaults[4]);
+    $("#p_dying_range").val(_defaults[5]);
+    $("#start_date_picker").val(_defaults[0]);
+    $("#end_date_picker").val(_defaults[6]);
+    $("#valueOfDays").val(_defaults[7]);
+    $("#population").text(_defaults[1]);
+    $("#ICU_beds").text(_defaults[3]);
+    $("#Initial_cases").text(_defaults[2]);
+    $("#p_symptoms").text(_defaults[4]);
+    $("#p_dying").text(_defaults[5]);
+    $("#start_date").text(_defaults[0]);
+    $("#end_date").text(_defaults[6]);
+    makeTable(_defaults[8]);
+
+
     let start_date_total = _results[0][0].split(",");
     let start_date_year = parseInt(start_date_total[0],10);
     let start_date_month = parseInt(start_date_total[1], 10) - 1;
