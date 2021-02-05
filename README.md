@@ -8,6 +8,11 @@ Mitchell Bink, Sandro Offermans & Max Kleinman
 In het onderzoek naar de ontwikkeling van covid-19 in Nederland zijn een aantal deelonderwerpen onderzocht.  Voor de gedane onderzoeken zijn zoveel mogelijk wetenschappelijke artikelen en bronnen gebruikt om mogelijke aannames te voorkomen. 
 Dit project is uitgevoerd in opdracht van het **Lectoraat Data Intelligence** van **Zuyd Hogeschool** te **Heerlen** als onderdeel van de minor **Data Science**.
 
+- In de project map bevindt zich het complete project. Dit kan eenvoudig worden opgestart door de /project/demonstrator.app.py te runnen en vervolgens te benaderen via localhost:5000;
+- Ook kan er een docker bestand van worden gemaakt door een CLI te openen in /project en vervolgens het commando 'docker-compose up' uit te voeren. Na enkele minuten zal vervolgens de website ook benaderbaar zijn op localhost:5000. Voor het afsluiten van de service kan het commando 'docker-compose down' gebruikt worden. (Onder de veronderstelling dat docker is geïnstalleerd)
+- de README.md in /project/demonstrator bevat de tekst voor de html-pagina '/ontwikkeling-in-nederland'. 
+- Het script 'python_automatisering_oxford_versie_twee.py' extraheert de data van Oxford en zet dat in een xls bestand. Deze wordt vervolgens gebruikt voor de visualisaties op de '/index' html-pagina. Dit script kan aangepast worden naar een andere einddatum om meer data te vergaren en meer recentere inzichten te krijgen in de ontwikkeling van het virus. (sidenote: Het xls bestand moet voor de docker-versie geplaatst zijn in de /project map ÉN de /project/demonstrator. Bij default staat deze al in de /project/demonstrator maar zal gekopieerd moeten worden naar de /project map)
+
 
 
 ## Inhoud
