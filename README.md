@@ -293,4 +293,8 @@ Froese, H. (2020, 22 april). _Modelling Coronavirus: Beyond the SIR Model | Towa
 
 Harrison, E. M., Docherty, A., & Semple, C. (2020, oktober). _COVID-19: time from symptom onset until death in UKhospitalised patients_. https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/928729/S0803_CO-CIN_-_Time_from_symptom_onset_until_death.pdf
 
+Alsnhll. (z.d.). alsnhll - Overview. GitHub. Geraadpleegd op 19 februari 2021, van https://github.com/alsnhll/
+
+Froese, H. (z.d.). henrifroese/infectious_disease_modelling. GitHub. Geraadpleegd op 19 februari 2021, van https://github.com/henrifroese/infectious_disease_modelling
+
 Epidemic Calculator. (2020). Epidemic Calculator. https://gabgoh.github.io/COVID/?CFR=0.02&D_hospital_lag=5&D_incbation=5.2&D_infectious=2.9&D_recovery_mild=11.1&D_recovery_severe=28.6&I0=1&InterventionAmt=0.76&InterventionTime=84.26666666666668&P_SEVERE=0.2&R0=2.2&Time_to_death=32&logN=16.79
